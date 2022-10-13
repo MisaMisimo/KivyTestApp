@@ -1,0 +1,3 @@
+# Ignore .buildozer generated directory
+/.buildozer/
+/bin/
