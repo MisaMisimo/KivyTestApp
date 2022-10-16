@@ -1,8 +1,8 @@
 # KivyTestApp
 
-# Lessons Learned
+## Lessons Learned
 
-## Setup
+### Setup
 
 1. Setup Tutorial which worked for me:  
 [Python Development Setup with Windows 10, Ubuntu Subsystem, GWSL & VS Code](https://www.youtube.com/watch?v=iJUM306kqHA)
@@ -13,7 +13,7 @@
 export "LIBGL_ALWAYS_INDIRECT=0"
 ```
 
-## Development Tips
+### Development Tips
 
 
 1. We can detect if App is running on android or linux with:<sub>[[Source]](https://stackoverflow.com/questions/48019043/python-detect-android)<sub>
@@ -29,7 +29,7 @@ import android
     from android.permissions import request_permissions, Permission
 ```
 
-# Useful Links
+## Useful Links
 | Description | Link |
 | --- | --- |
 | Android Permissions | https://developer.android.com/reference/android/Manifest.permission| 
