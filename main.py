@@ -50,7 +50,6 @@ class Example(MDApp):
         return Builder.load_string(KV)
 
     def file_manager_open(self):
-        # Are these prints necessary?
         if(USING_ANDROID_PLTFRM):
             initial_path = primary_external_storage_path()
         else:
