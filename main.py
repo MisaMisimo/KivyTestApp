@@ -1,86 +1,97 @@
-import os
-
-from kivy.core.window import Window
+from kivy.animation import Animation
 from kivy.lang import Builder
-from kivy.utils import platform
 
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.chip import MDChip
 from kivymd.app import MDApp
-from kivymd.uix.filemanager import MDFileManager
-from kivymd.toast import toast
-
-USING_ANDROID_PLTFRM = (platform == 'android')
-if(USING_ANDROID_PLTFRM):
-    import android
-    from android.storage import primary_external_storage_path
-    from android.permissions import request_permissions, Permission
-
+from kivymd.uix.behaviors.touch_behavior import TouchBehavior
+TouchBehavior.duration_long_touch = 0.1
 KV = '''
-MDBoxLayout:
-    orientation: "vertical"
+<MyScreen>
 
-    MDTopAppBar:
-        title: "MDFileManager"
-        left_action_items: [["menu", lambda x: None]]
-        elevation: 3
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_size: True
+        spacing: "12dp"
+        padding: "56dp"
+        pos_hint: {"center_x": .5, "center_y": .5}
 
-    MDFloatLayout:
+        MDLabel:
+            text: "Multiple choice"
+            bold: True
+            font_style: "H5"
+            adaptive_size: True
 
-        MDRoundFlatIconButton:
-            text: "Open manager"
-            icon: "folder"
-            pos_hint: {"center_x": .5, "center_y": .5}
-            on_release: app.file_manager_open()
+        MDBoxLayout:
+            id: chip_box
+            adaptive_size: True
+            spacing: "8dp"
+
+            MyChip:
+                text: "Elevator"
+                on_press: if self.active: root.removes_marks_all_chips()
+
+            MyChip:
+                text: "Washer / Dryer"
+                on_press: if self.active: root.removes_marks_all_chips()
+
+            MyChip:
+                text: "Fireplace"
+                on_press: if self.active: root.removes_marks_all_chips()
+
+
+ScreenManager:
+
+    MyScreen:
 '''
 
 
-class Example(MDApp):
+class MyChip(MDChip):
+    icon_check_color = (0, 0, 0, 1)
+    text_color = (0, 0, 0, 0.5)
+    _no_ripple_effect = True
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Window.bind(on_keyboard=self.events)
-        self.manager_open = False
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager, select_path=self.select_path
+        self.bind(active=self.set_chip_bg_color)
+        self.bind(active=self.set_chip_text_color)
+
+    def set_chip_bg_color(self, instance_chip, active_value: int):
+        '''
+        Will be called every time the chip is activated/deactivated.
+        Sets the background color of the chip.
+        '''
+
+        self.md_bg_color = (
+            (0, 0, 0, 0.4)
+            if active_value
+            else (
+                self.theme_cls.bg_darkest
+                if self.theme_cls.theme_style == "Light"
+                else (
+                    self.theme_cls.bg_light
+                    if not self.disabled
+                    else self.theme_cls.disabled_hint_text_color
+                )
+            )
         )
 
+    def set_chip_text_color(self, instance_chip, active_value: int):
+        Animation(
+            color=(0, 0, 0, 1) if active_value else (0, 0, 0, 0.5), d=0.2
+        ).start(self.ids.label)
+
+
+class MyScreen(MDScreen):
+    def removes_marks_all_chips(self):
+        for instance_chip in self.ids.chip_box.children:
+            if instance_chip.active:
+                instance_chip.active = False
+
+
+class Test(MDApp):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Orange"
-        if(USING_ANDROID_PLTFRM):
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
         return Builder.load_string(KV)
 
-    def file_manager_open(self):
-        if(USING_ANDROID_PLTFRM):
-            initial_path = primary_external_storage_path()
-        else:
-            initial_path = os.path.expanduser("/")
-        self.file_manager.show(initial_path)  # output manager to the screen
-        self.manager_open = True
 
-    def select_path(self, path: str):
-        '''
-        It will be called when you click on the file name
-        or the catalog selection button.
-
-        :param path: path to the selected directory or file;
-        '''
-
-        self.exit_manager()
-        toast(path)
-
-    def exit_manager(self, *args):
-        '''Called when the user reaches the root of the directory tree.'''
-
-        self.manager_open = False
-        self.file_manager.close()
-
-    def events(self, instance, keyboard, keycode, text, modifiers):
-        '''Called when buttons are pressed on the mobile device.'''
-
-        if keyboard in (1001, 27):
-            if self.manager_open:
-                self.file_manager.back()
-        return True
-
-
-Example().run()
+Test().run()

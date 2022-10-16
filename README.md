@@ -29,8 +29,14 @@ import android
     from android.permissions import request_permissions, Permission
 ```
 
+3. When using "Chips" if we want quicker "on_long_touch" responses. We can change the amount of time required with 
+```python
+from kivymd.uix.behaviors.touch_behavior import TouchBehavior
+TouchBehavior.duration_long_touch = 0.1
+```
 ## Useful Links
 | Description | Link |
 | --- | --- |
 | Android Permissions | https://developer.android.com/reference/android/Manifest.permission| 
 | KivyMD Docs | https://kivymd.readthedocs.io/en/1.0.2/getting-started/|
+| KicyMD Icons | https://materialdesignicons.com/ |
