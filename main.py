@@ -2,11 +2,17 @@ import os
 
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.utils import platform
 
 from kivymd.app import MDApp
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.toast import toast
 
+USING_ANDROID_PLTFRM = (platform == 'android')
+if(USING_ANDROID_PLTFRM):
+    import android
+    from android.storage import primary_external_storage_path
+    from android.permissions import request_permissions, Permission
 
 KV = '''
 MDBoxLayout:
@@ -39,10 +45,17 @@ class Example(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Orange"
+        if(USING_ANDROID_PLTFRM):
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
         return Builder.load_string(KV)
 
     def file_manager_open(self):
-        self.file_manager.show(os.path.expanduser("~"))  # output manager to the screen
+        # Are these prints necessary?
+        if(USING_ANDROID_PLTFRM):
+            initial_path = primary_external_storage_path()
+        else:
+            initial_path = os.path.expanduser("/")
+        self.file_manager.show(initial_path)  # output manager to the screen
         self.manager_open = True
 
     def select_path(self, path: str):
