@@ -33,4 +33,4 @@ import android
 | Description | Link |
 | --- | --- |
 | Android Permissions | https://developer.android.com/reference/android/Manifest.permission| 
-
+| KivyMD Docs | https://kivymd.readthedocs.io/en/1.0.2/getting-started/|
