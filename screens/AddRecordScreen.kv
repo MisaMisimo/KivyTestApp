@@ -1,6 +1,53 @@
 #:kivy 2.1.0
 <AddRecordScreen>:
+###############################################################################
+#  Add Record Screen
+###############################################################################
    name: "AddRecordMenu"
-   MDLabel:
-      text: 'Add Record'
-      halign: 'center'
+   MDBoxLayout:
+      orientation: 'vertical'
+      padding: 200
+###############################################################################
+#     Title
+###############################################################################
+      MDLabel:
+         text: "Add Expense"
+         halign: "center"
+         font_style: 'Subtitle1'
+
+###############################################################################
+#     Amount Field
+###############################################################################
+      MDTextField:
+         id: amount_field
+         hint_text: 'Amount Spent'
+         icon_left: 'currency-usd'
+###############################################################################
+#     Currency Field
+###############################################################################
+      MDSegmentedControl:
+         pos_hint: {"center_x": 0.5, "center_y": 0.5}
+         MDSegmentedControlItem:
+            size_hint: (0.5,None)
+            text: "MXN"
+         MDSegmentedControlItem:
+            size_hint: (0.5,None)
+            text: "USD"
+###############################################################################
+#     Description 
+############################################################################### 
+      MDTextField:
+         id: description_field
+         hint_text: 'Description'
+         icon_left: 'format-text-variant'
+         padding_x:[20,20]
+###############################################################################
+#     Date Field
+############################################################################### 
+      MDTextField:
+         id: date_field
+         hint_text: "dd/mm/yyyy"
+         icon_left: 'calendar'
+         date_format: "dd/mm/yyyy"
+   
+
