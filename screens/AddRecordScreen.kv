@@ -49,10 +49,11 @@
             MDRectangleFlatIconButton:
                id: calendar_button
                pos_hint: {"center_x": 0.5, "center_y": 0.5}
-               text: "Date: dd/mm/yyyy"
+               text: "Today"
                text_color: "gray"
                line_color: "gray"
                icon: "calendar"
+               on_release: root.show_date_picker()
          MDAnchorLayout:
             anchor_x: 'center'
             anchor_y: 'center'
