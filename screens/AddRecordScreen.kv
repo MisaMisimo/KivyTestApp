@@ -6,87 +6,87 @@
    name: "AddRecordMenu"
    MDBoxLayout:
       orientation: 'vertical'
-      padding: 200
-###############################################################################
-#     Title
-###############################################################################
-      MDLabel:
-         text: "Add Expense"
-         halign: "center"
-         font_style: 'Subtitle1'
-
-###############################################################################
-#     Amount Field
-###############################################################################
-      MDTextField:
-         id: amount_field
-         hint_text: 'Amount Spent'
-         icon_left: 'currency-usd'
-###############################################################################
-#     Currency Field
-###############################################################################
-      MDSegmentedControl:
-         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-         MDSegmentedControlItem:
-            size_hint: (0.5,None)
-            text: "MXN"
-         MDSegmentedControlItem:
-            size_hint: (0.5,None)
-            text: "USD"
-###############################################################################
-#     Description 
-############################################################################### 
-      MDTextField:
-         id: description_field
-         hint_text: 'Description'
-         icon_left: 'format-text-variant'
-         padding_x:[20,20]
-###############################################################################
-#     Date Field
-############################################################################### 
-      MDTextField:
-         id: date_field
-         hint_text: "dd/mm/yyyy"
-         icon_left: 'calendar'
-         date_format: "dd/mm/yyyy"
-###############################################################################
-#     Tags
-############################################################################### 
-      MDStackLayout:
-         spacing: "5dp"
-         MDChip:
-            text: "Grocery"
-         MDChip:
-            text: "Restaurant"
-         MDChip:
-            text: "Services"
-         MDChip:
-            text: "Gasoline"
-         MDChip:
-            text: "GasLP"
-         MDChip:
-            text: "Electricity"
-         MDChip:
-            text: "Water"
-         MDChip:
-            text: "Rent"
-         MDChip:
-            text: "Amazon"
-         MDChip:
-            text: "Clothes"
-         MDChip:
-            text: "Plane Tickets"
-         MDChip:
-            text: "Misc"
-
-###############################################################################
-#     Add Record Button
-############################################################################### 
+      # md_bg_color: app.theme_cls.primary_color
+      MDBoxLayout:
+         orientation: 'vertical'
+         MDAnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'center'
+            MDLabel:
+               text: "Add Expense"
+               halign: 'left'
+               # md_bg_color: "red"
+         MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            # md_bg_color: "orange"
+            MDTextField:
+               hint_text: "Amount Spent"
+               icon_left: "currency-usd"
+         MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            # md_bg_color: "green"
+            MDSegmentedControl:
+               # segment_panel_width:"200dp"
+               pos_hint: {"center_x": .5, "center_y": .5}
+               MDSegmentedControlItem:
+                  text: "MXN"
+               MDSegmentedControlItem:
+                  text: "USD"
+         MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            # md_bg_color: "blue"
+            MDTextField:
+               id: description_field
+               hint_text: 'Description'
+               icon_left: 'format-text-variant'
+         MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            # md_bg_color: "teal"
+            MDRectangleFlatIconButton:
+               id: calendar_button
+               pos_hint: {"center_x": 0.5, "center_y": 0.5}
+               text: "Date: dd/mm/yyyy"
+               text_color: "gray"
+               line_color: "gray"
+               icon: "calendar"
+         MDAnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            MDStackLayout:
+               spacing: "5dp"
+               MDChip:
+                  text: "Grocery"
+               MDChip:
+                  text: "Restaurant"
+               MDChip:
+                  text: "Services"
+               MDChip:
+                  text: "Gasoline"
+               MDChip:
+                  text: "GasLP"
+               MDChip:
+                  text: "Electricity"
+               MDChip:
+                  text: "Water"
+               MDChip:
+                  text: "Rent"
+               MDChip:
+                  text: "Amazon"
+               MDChip:
+                  text: "Clothes"
+               MDChip:
+                  text: "Plane Tickets"
+               MDChip:
+                  text: "Misc"
+      Widget:
    MDAnchorLayout:
       anchor_x: 'right'
       anchor_y: 'bottom'
       padding: '20dp'
-
       MDFillRoundFlatIconButton:
          text: "Add Record"
          icon: "plus-thick"
