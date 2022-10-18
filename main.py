@@ -3,6 +3,7 @@ from kivy.lang import Builder
 
 from screens.AddRecordScreen import AddRecordScreen
 from screens.ViewRecordScreen import ViewRecordScreen
+from screens.ViewGraphsScreen import ViewGraphsScreen
 
 class FinanceTrackerApp(MDApp):
    def build(self):
