@@ -106,6 +106,10 @@
                MDChip:
                   text: "Misc"
                   on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
+               MDChip:
+                  text: "+"
+                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
+                  on_press: print("Adding Tag")
       Widget:
    MDAnchorLayout:
       anchor_x: 'right'
