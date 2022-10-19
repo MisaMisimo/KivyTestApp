@@ -5,6 +5,7 @@ from screens.AddRecordScreen import AddRecordScreen
 from screens.ViewRecordScreen import ViewRecordScreen
 from screens.ViewGraphsScreen import ViewGraphsScreen
 
+from features.storage import StorageInterface
 class FinanceTrackerApp(MDApp):
    def build(self):
       self.theme_cls.theme_style = "Dark"
