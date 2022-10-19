@@ -1,5 +1,5 @@
 # Ignore .buildozer generated directory
 /.buildozer/
 /bin/
-*/__pycache__/
+**/__pycache__/
 /.vscode/
