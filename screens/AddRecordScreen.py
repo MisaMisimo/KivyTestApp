@@ -57,17 +57,16 @@ class AddRecordScreen(Screen):
          if tag.active == True:
             tags_list.append(tag.text)
       transaction_input_values = {
+         "transaction_type": "Expense",
          "amount": float(self.ids['amount_text_field'].text),
          "currency": str(currency_str),
          "description": str(self.ids['description_text_field'].text),
+         "date": str(self.ids),
          "tags": tags_list
       }
       interfaceStorage = StorageInterface()
-      interfaceStorage.add_expense_record(transaction_input_values)
+      interfaceStorage.add_record("transactions", transaction_input_values)
       self.show_alert_dialog(transaction_input_values)
-
-   def currency_selected(self):
-      print(self)
 
    def my_on_save(self, instance, value, date_range):
       # Update Calendar Button's with selected date

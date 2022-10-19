@@ -8,6 +8,7 @@ from screens.ViewGraphsScreen import ViewGraphsScreen
 from features.storage import StorageInterface
 class FinanceTrackerApp(MDApp):
    def build(self):
+      StorageInterface().initialize_database()
       self.theme_cls.theme_style = "Dark"
       return Builder.load_file('main.kv')
 
