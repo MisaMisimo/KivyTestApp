@@ -56,7 +56,6 @@ class AddRecordScreen(Screen):
       dialog_text += "Tags: "
       dialog_text += str(row_dictionary['tags']) + "\n"
       if not self.alert_dialog:
-         # TODO: Move this Dialog to it's own file
          self.alert_dialog = MDDialog(
                text=dialog_text,
                buttons=[
