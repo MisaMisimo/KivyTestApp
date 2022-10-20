@@ -4,6 +4,8 @@ from kivymd.uix.pickers import MDDatePicker
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
+from kivymd.uix.chip import MDChip
+
 from features.storage import StorageInterface
 # FIXME: Can't reopen dialog after dismissing  by touchinng outside of dialog
 # TODO: On build, dislay tags based on database
@@ -16,6 +18,25 @@ class AddRecordScreen(Screen):
    alert_dialog = None
    add_tag_dialog = None
    tag_box_layout = None
+################################################################################
+#               On load Tags functions
+################################################################################
+   def load_tags_from_database(self):
+      # Add each tag from database
+      for tag_name in self.interfaceStorage.get_tag_names():
+         self.ids['chip_stack_layout'].add_widget(
+            MDChip(
+               text = tag_name
+            )
+         )
+      add_tag_widget = MDChip(
+         text = "+"
+      )
+      add_tag_widget.bind(
+         on_press = self.show_add_tag_dialog
+      )
+      self.ids['chip_stack_layout'].add_widget(add_tag_widget)
+      print("Called on parent")
 ################################################################################
 #               Add Expense Functions
 ################################################################################
@@ -99,7 +120,7 @@ class AddRecordScreen(Screen):
          self.add_tag_dialog.dismiss()
       self.add_tag_dialog = None
       self.tag_box_layout = None
-   def show_add_tag_dialog(self):
+   def show_add_tag_dialog(self, *kwargs):
       if not self.add_tag_dialog:
          self.tag_box_layout = NewTagDialog_BoxLayout()
          self.add_tag_dialog = MDDialog(

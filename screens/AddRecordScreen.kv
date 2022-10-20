@@ -69,46 +69,8 @@
             MDStackLayout:
                id: chip_stack_layout
                spacing: "5dp"
-               MDChip:
-                  text: "Grocery"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Restaurant"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Services"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Gasoline"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "GasLP"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Electricity"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Water"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Rent"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Amazon"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Clothes"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Plane Tickets"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "Misc"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-               MDChip:
-                  text: "+"
-                  on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-                  on_press: root.show_add_tag_dialog
+               # When loading, display tags from database
+               on_parent: root.load_tags_from_database()
       Widget:
    MDAnchorLayout:
       anchor_x: 'right'
