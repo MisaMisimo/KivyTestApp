@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 from features.storage.config import Tables, CONST
 # from constants import Transaction
 class StorageInterface():
@@ -44,7 +45,7 @@ class StorageInterface():
       for table in Tables().configTables:
          if table_name == table.name:
             # Build SQL Command
-            sql_cmd_str += table.name + " ("
+            sql_cmd_str += table.name + " ( "
             last_attr_indx = len(table.attribute_list)
             attr_indx = 0
             # Iterate through the attributes in the configuration
@@ -57,7 +58,12 @@ class StorageInterface():
             sql_cmd_str += attribute_values[attribute.name]
             sql_cmd_str += "\')"
       print(sql_cmd_str)
-      c.execute(sql_cmd_str)
+      try:
+         c.execute(sql_cmd_str)
+      except sqlite3.IntegrityError:
+         print("Exception caught!")
+         print(sys.exc_info()[0])
+         print(sys.exc_info()[1])
       conn.commit()
       # Close connection
       conn.close()
