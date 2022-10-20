@@ -16,6 +16,9 @@ class AddRecordScreen(Screen):
    alert_dialog = None
    add_tag_dialog = None
    tag_box_layout = None
+################################################################################
+#               Add Expense Functions
+################################################################################
    def cancel_alert_dialog(self, *kwargs):
       self.alert_dialog.dismiss()
       self.alert_dialog = None
@@ -75,6 +78,10 @@ class AddRecordScreen(Screen):
       }
       self.interfaceStorage.add_record("transactions", transaction_input_values)
       self.show_alert_dialog(transaction_input_values)
+
+################################################################################
+#               Tag Functions
+################################################################################
    def write_new_tag_to_db(self, tag_name):
       # Validate TextInput
       row_values = {
@@ -82,9 +89,6 @@ class AddRecordScreen(Screen):
          "name":tag_name,
       }
       self.interfaceStorage.add_record("tags", row_values)
-   #TODO: write tag to database
-
-
    def cancel_add_tag(self, *kwargs):
       self.add_tag_dialog.dismiss()
       self.add_tag_dialog = None
@@ -93,9 +97,6 @@ class AddRecordScreen(Screen):
       if self.tag_box_layout:
          self.write_new_tag_to_db(self.tag_box_layout.ids['new_tag_text_field'].text)
          self.add_tag_dialog.dismiss()
-      self.add_tag_dialog = None
-      self.tag_box_layout = None
-   def on_add_tag_dismiss(self, *kwargs):
       self.add_tag_dialog = None
       self.tag_box_layout = None
    def show_add_tag_dialog(self):
@@ -120,6 +121,10 @@ class AddRecordScreen(Screen):
          )
          self.add_tag_dialog.open()
 
+
+################################################################################
+#               DatePicker Functions
+################################################################################
    def my_on_save(self, instance, value, date_range):
       # Update Calendar Button's with selected date
       self.ids['calendar_button'].text = value.strftime("%d/%b/%Y")
