@@ -1,5 +1,6 @@
 # Ignore .buildozer generated directory
 /.buildozer/
 /bin/
+finances.db
 **/__pycache__/
 /.vscode/
