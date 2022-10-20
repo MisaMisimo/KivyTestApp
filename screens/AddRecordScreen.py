@@ -21,6 +21,8 @@ class AddRecordScreen(Screen):
 #               On load Tags functions
 ################################################################################
    def load_tags_from_database(self):
+      # Clear tags
+      self.ids['chip_stack_layout'].clear_widgets()
       # Add each tag from database
       for tag_name in self.interfaceStorage.get_tag_names():
          self.ids['chip_stack_layout'].add_widget(
@@ -28,6 +30,7 @@ class AddRecordScreen(Screen):
                text = tag_name
             )
          )
+      # Add "+" tag
       add_tag_widget = MDChip(
          text = "+"
       )
@@ -116,6 +119,7 @@ class AddRecordScreen(Screen):
    def accept_add_tag(self, *kwargs):
       if self.tag_box_layout:
          self.write_new_tag_to_db(self.tag_box_layout.ids['new_tag_text_field'].text)
+         self.load_tags_from_database()
          self.add_tag_dialog.dismiss()
       self.add_tag_dialog = None
       self.tag_box_layout = None
