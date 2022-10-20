@@ -108,7 +108,7 @@
                MDChip:
                   text: "+"
                   on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-                  on_press: root.show_add_tag_dialog()
+                  on_press: root.show_add_tag_dialog
       Widget:
    MDAnchorLayout:
       anchor_x: 'right'
@@ -117,7 +117,7 @@
       MDFillRoundFlatIconButton:
          text: "Add Record"
          icon: "plus-thick"
-         on_release: root.write_record_to_db()
+         on_release: root.write_record_to_db
 
 <NewTagDialog_BoxLayout>:
    orientation: "vertical"
