@@ -41,7 +41,7 @@ class AddRecordScreen(Screen):
          )
       self.alert_dialog.open()
    def write_record_to_db(self):
-      # Validate Amount
+      # TODO validate all inputs
       try:
          float(self.ids['amount_text_field'].text)
       except ValueError:
@@ -67,6 +67,11 @@ class AddRecordScreen(Screen):
       interfaceStorage = StorageInterface()
       interfaceStorage.add_record("transactions", transaction_input_values)
       self.show_alert_dialog(transaction_input_values)
+   
+   #TODO: write tag to database
+   #TODO: On build, dislay tags based on database
+   #TODO: On build, order tags based on how often they are used
+
 
    def my_on_save(self, instance, value, date_range):
       # Update Calendar Button's with selected date
