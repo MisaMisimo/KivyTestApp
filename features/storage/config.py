@@ -1,5 +1,13 @@
+from utils.utils import USING_ANDROID_PLTFRM
+import os
 class CONST():
-      DATABASE_PATH = 'database/finances.db'
+      if(USING_ANDROID_PLTFRM):
+         from android.storage import primary_external_storage_path
+         DATABASE_DIR = primary_external_storage_path()+'/database/'
+      else:
+         DATABASE_DIR = os.getcwd()+'/database/'
+      DATABASE_FILE_NAME = "finances.db"
+      DATABASE_PATH = DATABASE_DIR + DATABASE_FILE_NAME
 class Tables():
    class Attribute():
       def __init__(

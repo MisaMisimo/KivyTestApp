@@ -1,11 +1,18 @@
 import sqlite3
 import sys
+import os
 from features.storage.config import Tables, CONST
 # from constants import Transaction
 class StorageInterface():
    def __init__(self):
       pass
+   def create_db_directory(self):
+      directory_exists =  os.path.isdir(CONST.DATABASE_DIR)
+      if(not directory_exists):
+         os.mkdir(CONST.DATABASE_DIR)
    def initialize_database(self):
+      # Create database directory if it does not yet exist
+      self.create_db_directory()
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
@@ -90,5 +97,3 @@ class StorageInterface():
       for tag in tags:
          rtn_list.append(tag[0])
       return rtn_list
-   
-
