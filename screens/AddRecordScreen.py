@@ -7,10 +7,10 @@ from features.storage import StorageInterface
 
 Builder.load_file('screens/AddRecordScreen.kv')
 class AddRecordScreen(Screen):
-   dialog = None
+   alert_dialog = None
    def cancel_alert_dialog(self, *kwargs):
-      self.dialog.dismiss()
-      self.dialog = None
+      self.alert_dialog.dismiss()
+      self.alert_dialog = None
    def show_alert_dialog(self, row_dictionary):
       dialog_text = ""
       dialog_text += "Amount: "
@@ -21,8 +21,8 @@ class AddRecordScreen(Screen):
       dialog_text += str(row_dictionary['description']) + "\n"
       dialog_text += "Tags: "
       dialog_text += str(row_dictionary['tags']) + "\n"
-      if not self.dialog:
-         self.dialog = MDDialog(
+      if not self.alert_dialog:
+         self.alert_dialog = MDDialog(
                text=dialog_text,
                buttons=[
                   MDFlatButton(
@@ -39,7 +39,7 @@ class AddRecordScreen(Screen):
                   ),
                ],
          )
-      self.dialog.open()
+      self.alert_dialog.open()
    def write_record_to_db(self):
       # Validate Amount
       try:
