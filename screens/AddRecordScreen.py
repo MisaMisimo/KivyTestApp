@@ -3,11 +3,19 @@ from kivy.uix.screenmanager import Screen
 from kivymd.uix.pickers import MDDatePicker
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.boxlayout import BoxLayout
 from features.storage import StorageInterface
-
+# FIXME: Can't reopen dialog after dismissing  by touchinng outside of dialog
+# TODO: On build, dislay tags based on database
+# TODO: On build, order tags based on how often they are used
 Builder.load_file('screens/AddRecordScreen.kv')
+class NewTagDialog_BoxLayout(BoxLayout):
+   pass
 class AddRecordScreen(Screen):
+   interfaceStorage = StorageInterface()
    alert_dialog = None
+   add_tag_dialog = None
+   tag_box_layout = None
    def cancel_alert_dialog(self, *kwargs):
       self.alert_dialog.dismiss()
       self.alert_dialog = None
@@ -22,6 +30,7 @@ class AddRecordScreen(Screen):
       dialog_text += "Tags: "
       dialog_text += str(row_dictionary['tags']) + "\n"
       if not self.alert_dialog:
+         # TODO: Move this Dialog to it's own file
          self.alert_dialog = MDDialog(
                text=dialog_text,
                buttons=[
@@ -64,14 +73,52 @@ class AddRecordScreen(Screen):
          "date": str(self.ids),
          "tags": tags_list
       }
-      interfaceStorage = StorageInterface()
-      interfaceStorage.add_record("transactions", transaction_input_values)
+      self.interfaceStorage.add_record("transactions", transaction_input_values)
       self.show_alert_dialog(transaction_input_values)
-   
+   def write_new_tag_to_db(self, tag_name):
+      # Validate TextInput
+      row_values = {
+         "tag_id": "NULL",
+         "name":tag_name,
+      }
+      self.interfaceStorage.add_record("tags", row_values)
    #TODO: write tag to database
-   #TODO: On build, dislay tags based on database
-   #TODO: On build, order tags based on how often they are used
 
+
+   def cancel_add_tag(self, *kwargs):
+      self.add_tag_dialog.dismiss()
+      self.add_tag_dialog = None
+      self.tag_box_layout = None
+   def accept_add_tag(self, *kwargs):
+      if self.tag_box_layout:
+         self.write_new_tag_to_db(self.tag_box_layout.ids['new_tag_text_field'].text)
+         self.add_tag_dialog.dismiss()
+      self.add_tag_dialog = None
+      self.tag_box_layout = None
+   def on_add_tag_dismiss(self, *kwargs):
+      self.add_tag_dialog = None
+      self.tag_box_layout = None
+   def show_add_tag_dialog(self):
+      if not self.add_tag_dialog:
+         self.tag_box_layout = NewTagDialog_BoxLayout()
+         self.add_tag_dialog = MDDialog(
+            title="New Tag",
+            type = "custom",
+            content_cls = self.tag_box_layout,
+            buttons=[
+               MDFlatButton(
+                  text="CANCEL",
+                  theme_text_color="Custom",
+                  on_release=self.cancel_add_tag
+               ),
+               MDFlatButton(
+                  text="ACCEPT",
+                  theme_text_color="Custom",
+                  on_release=self.accept_add_tag
+               ),
+            ],
+         )
+         self.add_tag_dialog.open()
 
    def my_on_save(self, instance, value, date_range):
       # Update Calendar Button's with selected date

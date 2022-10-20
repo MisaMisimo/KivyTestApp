@@ -43,11 +43,22 @@ class StorageInterface():
       sql_cmd_str = "INSERT INTO "
       for table in Tables().configTables:
          if table_name == table.name:
-            sql_cmd_str += table.name + "VALUES("
+            # Build SQL Command
+            sql_cmd_str += table.name + " ("
+            last_attr_indx = len(table.attribute_list)
+            attr_indx = 0
+            # Iterate through the attributes in the configuration
             for attribute in table.attribute_list:
+               # Increase index
+               attr_indx += 1
+               # Build SQL Attributes
                sql_cmd_str += (attribute.name + " ") if not attribute.primary_key else ""
-            sql_cmd_str += ")"
+            sql_cmd_str += ") VALUES (\'"
+            sql_cmd_str += attribute_values[attribute.name]
+            sql_cmd_str += "\')"
       print(sql_cmd_str)
+      c.execute(sql_cmd_str)
+      conn.commit()
       # Close connection
       conn.close()
    def delete_record(self, key):

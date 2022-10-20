@@ -108,7 +108,7 @@
                MDChip:
                   text: "+"
                   on_active: self.md_bg_color = app.theme_cls.primary_color if self.active else "#212121"
-                  on_press: print("Adding Tag")
+                  on_press: root.show_add_tag_dialog()
       Widget:
    MDAnchorLayout:
       anchor_x: 'right'
@@ -118,3 +118,12 @@
          text: "Add Record"
          icon: "plus-thick"
          on_release: root.write_record_to_db()
+
+<NewTagDialog_BoxLayout>:
+   orientation: "vertical"
+   spacing: "12dp"
+   size_hint_y: None
+   height: "60dp"
+   MDTextField:
+      id: new_tag_text_field
+      hint_text: "Add Tag"
