@@ -33,17 +33,17 @@ class Tables():
          self.attribute_list = attribute_list
       def add_attribute(self, attribute):
          self.attribte_list.append(attribute)
-
+   
    configTables = [
       Table(name = "transactions",
          attribute_list = [
             Attribute(name = "transaction_id",  data_type = "integer",                primary_key = True),
-            Attribute(name = "transaction_type",data_type = "integer"),
+            Attribute(name = "transaction_type",data_type = "text"),
             Attribute(name = "amount",          data_type = "decimal(65,2)"),
-            Attribute(name = "currency",        data_type = "integer"),
+            Attribute(name = "currency",        data_type = "text"),
             Attribute(name = "description",     data_type = "text"),
             Attribute(name = "date",            data_type = "date"),
-            Attribute(name = "timestamp",       data_type = "timestamp"),
+            Attribute(name = "timestamp",       data_type = "datetime"),
          ]
       ),
       Table(name = "tags",
