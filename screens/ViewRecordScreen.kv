@@ -11,13 +11,12 @@
             text: "Expenses"
             adaptive_size: True
 
-
       ScrollView:
          MDSelectionList:
             id: selection_list
             spacing: "12dp"
             on_parent: root.load_selection_list()
-            on_selected: root.on_selected_args(*args)
+            on_selected: root.on_selected(*args)
             on_unselected: root.on_unselected(*args)
             on_selected_mode: root.set_selection_mode(*args)
 
