@@ -1,3 +1,4 @@
+from datetime import datetime
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.pickers import MDDatePicker
@@ -53,8 +54,6 @@ class AddRecordScreen(Screen):
       dialog_text += str(row_dictionary['currency']) + "\n"
       dialog_text += "Description: "
       dialog_text += str(row_dictionary['description']) + "\n"
-      dialog_text += "Tags: "
-      dialog_text += str(row_dictionary['tags']) + "\n"
       if not self.alert_dialog:
          self.alert_dialog = MDDialog(
                text=dialog_text,
@@ -74,35 +73,54 @@ class AddRecordScreen(Screen):
                ],
          )
       self.alert_dialog.open()
+   def get_validated_inputs(self):
+      '''
+         Returns None if inputs are not valid.
+         Otherwise returns validated inputs
+      '''
+      def get_record_inputs(self):
+         '''
+            Gets raw inputs from GUI
+         '''
+         amount = self.ids['amount_text_field'].text
+         currency = "MXN" if (self.ids['currency_field'].current_active_segment == None) else self.ids['currency_field'].current_active_segment.text
+         description = self.ids['description_text_field'].text
+         date = self.ids['calendar_button'].text if (self.ids['calendar_button'].text != "Today") else datetime.now().strftime("%Y-%m-%d")
+         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+         record_input_values = {
+            "amount":amount,
+            "currency": currency,
+            "description": description,
+            "date": date,
+            "timestamp": timestamp,
+         }
+         return record_input_values
+      record_input_values = get_record_inputs(self)
+      # Validate Amount
+      try:
+         float(record_input_values['amount'])
+      except ValueError:
+         return None
+      # No need to validate currency
+      # No need to validate description
+      # No need to validate date
+      # No need to validate timestamp
+      return record_input_values
+   def create_database_signals(self):
+      pass
    def write_record_to_db(self):
       # TODO validate all inputs
-      try:
-         float(self.ids['amount_text_field'].text)
-      except ValueError:
-         self.ids['amount_text_field'].text = "00.00"
-         print("Not a float")
-      # Validate Currency
-      if (self.ids['currency_field'].current_active_segment == None ):
-         currency_str = "MXN"
+      validated_inputs = self.get_validated_inputs()
+      if validated_inputs:
+         record_outputs = self.create_database_signals(validated_inputs)
+         self.interfaceStorage.add_record("transactions", validated_inputs)
+         self.show_alert_dialog(validated_inputs)
       else:
-         currency_str = str(self.ids['currency_field'].current_active_segment.text)
-      tags_list = []
-      for tag in self.ids['chip_stack_layout'].children:
-         if tag.active == True:
-            tags_list.append(tag.text)
-      transaction_input_values = {
-         "transaction_type": "Expense",
-         "amount": float(self.ids['amount_text_field'].text),
-         "currency": str(currency_str),
-         "description": str(self.ids['description_text_field'].text),
-         "date": str(self.ids),
-         "tags": tags_list
-      }
-      self.interfaceStorage.add_record("transactions", transaction_input_values)
-      self.show_alert_dialog(transaction_input_values)
+         #TODO add snackbar mentioning an input is not valid
+         print("Invalid inputs")
 
 ################################################################################
-#               Tag Functions
+#               Tags Functions
 ################################################################################
    def write_new_tag_to_db(self, tag_name):
       # Validate TextInput
