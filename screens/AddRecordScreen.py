@@ -113,7 +113,7 @@ class AddRecordScreen(Screen):
       validated_inputs = self.get_validated_inputs()
       if validated_inputs:
          record_outputs = self.create_database_signals(validated_inputs)
-         self.interfaceStorage.add_record("transactions", validated_inputs)
+         self.interfaceStorage.insert_into_table("transactions", record_outputs)
          self.show_alert_dialog(validated_inputs)
       else:
          #TODO add snackbar mentioning an input is not valid
@@ -128,7 +128,7 @@ class AddRecordScreen(Screen):
          "tag_id": "NULL",
          "name":tag_name,
       }
-      self.interfaceStorage.add_record("tags", row_values)
+      self.interfaceStorage.insert_into_table("tags", row_values)
    def cancel_add_tag(self, *kwargs):
       self.add_tag_dialog.dismiss()
       self.add_tag_dialog = None

@@ -42,14 +42,15 @@ class StorageInterface():
          conn.commit()
       # Close connection
       conn.close()
-   def add_record(self, table_name, attribute_values):
+   def insert_into_table(self, table_name, attribute_values):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
       c = conn.cursor()
       # Add row with Expense values
       sql_cmd_str = "INSERT INTO "
-      for table in Tables().configTables:
+      TableObj = Tables()
+      for table in TableObj.configTables:
          if table_name == table.name:
             # Build SQL Command
             sql_cmd_str += table.name + " ( "
@@ -59,11 +60,24 @@ class StorageInterface():
             for attribute in table.attribute_list:
                # Increase index
                attr_indx += 1
-               # Build SQL Attributes
-               sql_cmd_str += (attribute.name + " ") if not attribute.primary_key else ""
-            sql_cmd_str += ") VALUES (\'"
-            sql_cmd_str += attribute_values[attribute.name]
-            sql_cmd_str += "\')"
+               if not attribute.primary_key:
+                  # Build SQL Attributes
+                  sql_cmd_str += (attribute.name + " ") 
+                  # Add comma if it isn't the last value
+                  sql_cmd_str += "," if attr_indx != last_attr_indx else ""
+            sql_cmd_str += ") VALUES ( "
+            attr_indx = 0
+            for attribute in table.attribute_list:
+               attr_indx += 1
+               if not attribute.primary_key:
+                  sql_cmd_str += " "
+                  sql_cmd_str += "\'" if(attribute.data_type in TableObj.sql_data_type_uses_tilde) else ""
+                  sql_cmd_str += attribute_values[attribute.name]
+                  sql_cmd_str += "\'" if(attribute.data_type in TableObj.sql_data_type_uses_tilde) else ""
+                  sql_cmd_str += " "
+                  # Add comma if it isn't the last value
+                  sql_cmd_str += "," if attr_indx != last_attr_indx else ""
+            sql_cmd_str += ")"
       print(sql_cmd_str)
       try:
          c.execute(sql_cmd_str)
