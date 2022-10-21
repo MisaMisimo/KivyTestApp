@@ -33,7 +33,7 @@ class Tables():
          self.attribute_list = attribute_list
       def add_attribute(self, attribute):
          self.attribte_list.append(attribute)
-   
+   sql_data_type_uses_tilde = ["text", "date", "datetime"]
    configTables = [
       Table(name = "transactions",
          attribute_list = [
