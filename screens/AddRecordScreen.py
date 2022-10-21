@@ -7,7 +7,7 @@ from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.chip import MDChip
 
 from features.storage import StorageInterface
-# FIXME: Can't reopen dialog after dismissing  by touchinng outside of dialog
+# BUG: Can't reopen dialog after dismissing  by touchinng outside of dialog
 # TODO: On build, order tags based on how often they are used
 Builder.load_file('screens/AddRecordScreen.kv')
 class NewTagDialog_BoxLayout(BoxLayout):
