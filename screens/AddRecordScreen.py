@@ -106,13 +106,20 @@ class AddRecordScreen(Screen):
       # No need to validate date
       # No need to validate timestamp
       return record_input_values
-   def create_database_signals(self):
-      pass
-   def write_record_to_db(self):
+   def prepare_transaciton_values(self, inputs):
+      return {
+         "transaction_type" : "expense",
+         "amount" : str(inputs["amount"]),
+         "currency" : str(inputs["currency"]),
+         "description" : str(inputs["description"]),
+         "date" : str(inputs["date"]),
+         "timestamp" : str(inputs["timestamp"]),
+      }
+   def process_expense_inputs(self):
       # TODO validate all inputs
       validated_inputs = self.get_validated_inputs()
       if validated_inputs:
-         record_outputs = self.create_database_signals(validated_inputs)
+         record_outputs = self.prepare_transaciton_values(validated_inputs)
          self.interfaceStorage.insert_into_table("transactions", record_outputs)
          self.show_alert_dialog(validated_inputs)
       else:
