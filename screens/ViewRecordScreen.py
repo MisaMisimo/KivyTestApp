@@ -9,9 +9,9 @@ class ViewRecordScreen(Screen):
    def load_selection_list(self):
       for i in range(10):
          self.ids['selection_list'].add_widget(ExpenseListItem())
-   def on_selected(self):
+   def on_selected(self, *args):
       pass
-   def on_unselected(self):
+   def on_unselected(self, *args):
       pass
-   def set_selection_mode(self):
+   def set_selection_mode(self, *args):
       pass
