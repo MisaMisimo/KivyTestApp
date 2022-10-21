@@ -9,7 +9,7 @@ from screens.AddRecordScreen import AddRecordScreen
 from screens.ViewRecordScreen import ViewRecordScreen
 from screens.ViewGraphsScreen import ViewGraphsScreen
 
-from features.storage import StorageInterface
+from features.storage.StorageInterface import StorageInterface
 class FinanceTrackerApp(MDApp):
    def build(self):
     StorageInterface().initialize_database()
