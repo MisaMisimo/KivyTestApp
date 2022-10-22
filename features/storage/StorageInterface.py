@@ -125,4 +125,14 @@ class StorageInterface():
       # Close connection
       conn.close()
       return ObjectRow
+   def get_last_item_from_table(self, table_name:str):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      c.execute("SELECT * FROM "+ table_name + " ORDER BY  id DESC LIMIT 1" )
+      ObjectRow = c.fetchall()
+      conn.commit()
+      # Close connection
+      conn.close()
 
