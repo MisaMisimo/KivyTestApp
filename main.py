@@ -15,6 +15,11 @@ class FinanceTrackerApp(MDApp):
       StorageInterface().initialize_database()
       self.theme_cls.theme_style = "Dark"
       return Builder.load_file('main.kv')
+########################################
+#     View Record Screen Event
+########################################
+   def update_list_screen(self):
+      self.root.ids['screen2_item'].children[0].update_selection_list()
 
 if __name__ == "__main__":
    FinanceTrackerApp().run()

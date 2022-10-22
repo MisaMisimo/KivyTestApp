@@ -81,7 +81,9 @@
       MDFillRoundFlatIconButton:
          text: "Add Record"
          icon: "plus-thick"
-         on_release: root.process_expense_inputs()
+         on_release:
+            root.process_expense_inputs()
+            app.update_list_screen()
 
 <NewTagDialog_BoxLayout>:
    orientation: "vertical"

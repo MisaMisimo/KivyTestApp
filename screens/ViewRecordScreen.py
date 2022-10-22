@@ -17,6 +17,17 @@ class ViewRecordScreen(Screen):
 ################################################################################
 #               On load Record functions
 ################################################################################
+   def update_selection_list(self):
+      table_headers = self.interfaceStorage.get_table_headers("transactions")
+      last_item = self.interfaceStorage.get_last_item_from_table("transactions")
+      self.ids['selection_list'].add_widget(
+         ExpenseListItem(
+            text = str(last_item[table_headers.index('amount')]) + " " + \
+                  last_item[table_headers.index('currency')] + "   ||   " + \
+                  last_item[table_headers.index('description')],
+               secondary_text =  DateUtils.convert_date_format(str(last_item[table_headers.index('date')]),"%Y-%m-%d","%B %d, %Y")
+         )
+      )
    def load_selection_list(self):
       # Empty the list
       self.ids['selection_list'].clear_widgets()
