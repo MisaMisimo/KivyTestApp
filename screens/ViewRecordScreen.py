@@ -8,6 +8,12 @@ class ExpenseListItem(TwoLineAvatarIconListItem):
    pass
 class ViewRecordScreen(Screen):
    interfaceStorage = StorageInterface()
+# TODO: Display Amount in float with two decimals
+# TODO: Change icon depending on wether it's an expense or an income transaction
+# TODO: Swipe to delete
+# TODO: Add Topbar navigation to Delete/Edit selected items
+# TODO: Add filter/Search  bar on top
+# TODO: Display tags based on transaction/tag relationship table
 ################################################################################
 #               On load Record functions
 ################################################################################

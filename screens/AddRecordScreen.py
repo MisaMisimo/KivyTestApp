@@ -12,6 +12,7 @@ from features.storage.StorageInterface import StorageInterface
 # TODO: On build, order tags based on how often they are used
 # TODO: Need to validate there are no apostrophes in text inputs. otherwise we could have database problems
 # TODO: Add snackbar to to show error whenever inputs aren't valid.
+# TODO: Add relationship tags/transaction into database
 Builder.load_file('screens/AddRecordScreen.kv')
 class NewTagDialog_BoxLayout(BoxLayout):
    pass
