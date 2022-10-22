@@ -23,7 +23,7 @@ class ViewRecordScreen(Screen):
       # Add each list item from database
       # Get table headers
       table_headers = self.interfaceStorage.get_table_headers("transactions")
-      transaction_rows = self.interfaceStorage.get_all_from_table("transactions")
+      transaction_rows = self.interfaceStorage.get_all_from_table_order_by("transactions","transaction_id", "DESC")
       number_of_items = 0
       for row_list in transaction_rows:
          self.ids['selection_list'].add_widget(

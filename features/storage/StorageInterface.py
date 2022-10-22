@@ -114,4 +114,15 @@ class StorageInterface():
       # Close connection
       conn.close()
       return ObjectRow
+   def get_all_from_table_order_by(self, table_name:str, column_name:str, desc_asc:str="ASC"):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      c.execute("SELECT * FROM "+ table_name + " ORDER BY " + column_name +" "+ desc_asc )
+      ObjectRow = c.fetchall()
+      conn.commit()
+      # Close connection
+      conn.close()
+      return ObjectRow
 
