@@ -7,6 +7,7 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.chip import MDChip
 from features.storage.StorageInterface import StorageInterface
+from utils.utils import DateUtils
 # BUG: Can't reopen dialog after dismissing  by touchinng outside of dialog
 # TODO: Add ability segmented control to choose beween Expense, Income, CurrentBalance
 # TODO: On build, order tags based on how often they are used
@@ -90,7 +91,7 @@ class AddRecordScreen(Screen):
          amount = self.ids['amount_text_field'].text
          currency = "MXN" if (self.ids['currency_field'].current_active_segment == None) else self.ids['currency_field'].current_active_segment.text
          description = self.ids['description_text_field'].text
-         date = self.ids['calendar_button'].text if (self.ids['calendar_button'].text != "Today") else datetime.now().strftime("%Y-%m-%d")
+         date = DateUtils.convert_date_format(self.ids['calendar_button'].text, "%d/%b/%Y", "%Y-%m-%d") if (self.ids['calendar_button'].text != "Today") else datetime.now().strftime("%Y-%m-%d")
          timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
          record_input_values = {
             "amount":amount,
