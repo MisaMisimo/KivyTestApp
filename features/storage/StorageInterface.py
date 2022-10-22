@@ -103,23 +103,23 @@ class StorageInterface():
       conn.close()
       column_names = list(map(lambda x: x[0], c.description))
       return column_names
-   def get_all_from_table(self, table_name:str):
+   def get_all_from_table(self, table_name:str, amount_limit=10):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
       c = conn.cursor()
-      c.execute("SELECT * FROM "+table_name)
+      c.execute("SELECT * FROM "+table_name + " LIMIT " + str(amount_limit))
       ObjectRow = c.fetchall()
       conn.commit()
       # Close connection
       conn.close()
       return ObjectRow
-   def get_all_from_table_order_by(self, table_name:str, column_name:str, desc_asc:str="ASC"):
+   def get_all_from_table_order_by(self, table_name:str, column_name:str, desc_asc:str="ASC", amount_limit = 10):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
       c = conn.cursor()
-      c.execute("SELECT * FROM "+ table_name + " ORDER BY " + column_name +" "+ desc_asc )
+      c.execute("SELECT * FROM "+ table_name + " ORDER BY " + column_name +" "+ desc_asc + " LIMIT " + str(amount_limit))
       ObjectRow = c.fetchall()
       conn.commit()
       # Close connection
