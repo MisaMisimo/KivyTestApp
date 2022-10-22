@@ -131,8 +131,8 @@ class StorageInterface():
       # Create a cursor
       c = conn.cursor()
       c.execute("SELECT * FROM "+ table_name + " ORDER BY  id DESC LIMIT 1" )
-      ObjectRow = c.fetchall()
+      last_Row = c.fetchone()
       conn.commit()
       # Close connection
       conn.close()
-
+      return last_Row
