@@ -94,23 +94,6 @@ class StorageInterface():
       # Delete All rows from Tags Where Tranasction Key is the Key
       # Close database
       pass
-   def get_transactions(self,max_rows = 100):
-      # 
-      pass
-   def get_tag_names(self):
-      rtn_list = []
-      # Create database or connect to one
-      conn = sqlite3.connect(CONST.DATABASE_PATH)
-      # Create a cursor
-      c = conn.cursor()
-      c.execute("SELECT name FROM tags")
-      tags = c.fetchall()
-      conn.commit()
-      # Close connection
-      conn.close()
-      for tag in tags:
-         rtn_list.append(tag[0])
-      return rtn_list
    def get_table_headers(self, table_name:str):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
