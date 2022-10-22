@@ -6,7 +6,6 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.chip import MDChip
-from custom_widgets.MDFloatTextField import MDFloatTextField
 from features.storage.StorageInterface import StorageInterface
 # BUG: Can't reopen dialog after dismissing  by touchinng outside of dialog
 # TODO: Add ability segmented control to choose beween Expense, Income, CurrentBalance
