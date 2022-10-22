@@ -13,6 +13,8 @@ from utils.utils import DateUtils
 # TODO: On build, order tags based on how often they are used
 # TODO: Add snackbar to to show error whenever inputs aren't valid.
 # TODO: Add relationship tags/transaction into database
+# TODO: Reset widgets after succesfull add
+# TODO: Optimize ViewList LoadTime
 Builder.load_file('screens/AddRecordScreen.kv')
 class NewTagDialog_BoxLayout(BoxLayout):
    pass
