@@ -9,6 +9,7 @@ from kivymd.uix.chip import MDChip
 
 from features.storage.StorageInterface import StorageInterface
 # BUG: Can't reopen dialog after dismissing  by touchinng outside of dialog
+# TODO: Add ability segmented control to choose beween Expense, Income, CurrentBalance
 # TODO: On build, order tags based on how often they are used
 # TODO: Need to validate there are no apostrophes in text inputs. otherwise we could have database problems
 # TODO: Add snackbar to to show error whenever inputs aren't valid.
