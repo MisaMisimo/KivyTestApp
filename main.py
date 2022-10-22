@@ -19,7 +19,7 @@ class FinanceTrackerApp(MDApp):
 #     View Record Screen Event
 ########################################
    def update_list_screen(self):
-      self.root.ids['screen2_item'].children[0].update_selection_list()
+      self.root.ids['screen2_item'].children[0].ids['selection_list'].update_data_with_last_item()
 
 if __name__ == "__main__":
    FinanceTrackerApp().run()

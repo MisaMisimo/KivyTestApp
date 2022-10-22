@@ -8,19 +8,14 @@
          text: "Expenses"
          halign: "left"
          adaptive_size: True
+      ViewRecordRecycleView:
+         id: selection_list
 
-      ScrollView:
-         MDSelectionList:
-            id: selection_list
-            spacing: "12dp"
-            on_parent: root.load_selection_list()
-            on_selected: root.on_selected(*args)
-            on_unselected: root.on_unselected(*args)
-            on_selected_mode: root.set_selection_mode(*args)
-
+         
 <ExpenseListItem>:
    text: "Amount goes here"
    secondary_text: "Description and Tags"
+   default_size: None, dp(56)
    IconLeftWidget:
       icon: "minus-thick"
 
@@ -29,3 +24,20 @@
    secondary_text: "Description and Tags"
    IconLeftWidget:
       icon: "plus-thick"
+
+<ViewRecordRecycleView>:
+   viewclass: 'ExpenseListItem'  # defines the viewtype for the data items.
+   orientation: "vertical"
+   spacing: 40
+   padding:20, 20
+   space_x: self.size[0]/3
+
+   RecycleBoxLayout:
+      color:(0, 0.7, 0.4, 0.8)
+      default_size: None, dp(56)
+
+      # defines the size of the widget in reference to width and height
+      default_size_hint: 1.0, None 
+      size_hint_y: None
+      height: self.minimum_height
+      orientation: 'vertical' # defines the orientation of data items
