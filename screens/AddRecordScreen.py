@@ -27,11 +27,14 @@ class AddRecordScreen(Screen):
    def load_tags_from_database(self):
       # Clear tags
       self.ids['chip_stack_layout'].clear_widgets()
-      # Add each tag from database
-      for tag_name in self.interfaceStorage.get_tag_names():
+      # Get table headers
+      table_headers = self.interfaceStorage.get_table_headers("tags")
+      # Get table values
+      tag_rows = self.interfaceStorage.get_all_from_table("tags")
+      for row_list in tag_rows:
          self.ids['chip_stack_layout'].add_widget(
             MDChip(
-               text = tag_name
+               text = row_list[table_headers.index('name')]
             )
          )
       # Add "+" tag
