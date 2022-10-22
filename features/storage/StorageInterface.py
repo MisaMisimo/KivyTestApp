@@ -111,3 +111,24 @@ class StorageInterface():
       for tag in tags:
          rtn_list.append(tag[0])
       return rtn_list
+   def get_table_headers(self, table_name:str):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.execute("SELECT * FROM "+table_name)
+      # Close connection
+      conn.close()
+      column_names = list(map(lambda x: x[0], c.description))
+      return column_names
+   def get_all_from_table(self, table_name:str):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      c.execute("SELECT * FROM "+table_name)
+      ObjectRow = c.fetchall()
+      conn.commit()
+      # Close connection
+      conn.close()
+      return ObjectRow
+
