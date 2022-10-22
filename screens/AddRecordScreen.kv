@@ -1,4 +1,5 @@
 #:kivy 2.1.0
+#:import MDFloatTextField custom_widgets.MDFloatTextField
 <AddRecordScreen>:
 ###############################################################################
 #  Add Record Screen
@@ -21,7 +22,7 @@
             anchor_x: 'center'
             anchor_y: 'center'
             # md_bg_color: "orange"
-            MDTextField:
+            MDFloatTextField:
                id: amount_text_field
                hint_text: "Amount Spent"
                icon_left: "currency-usd"

@@ -6,12 +6,11 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.chip import MDChip
-
+from custom_widgets.MDFloatTextField import MDFloatTextField
 from features.storage.StorageInterface import StorageInterface
 # BUG: Can't reopen dialog after dismissing  by touchinng outside of dialog
 # TODO: Add ability segmented control to choose beween Expense, Income, CurrentBalance
 # TODO: On build, order tags based on how often they are used
-# TODO: Need to validate there are no apostrophes in text inputs. otherwise we could have database problems
 # TODO: Add snackbar to to show error whenever inputs aren't valid.
 # TODO: Add relationship tags/transaction into database
 Builder.load_file('screens/AddRecordScreen.kv')
