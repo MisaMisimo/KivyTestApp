@@ -140,7 +140,7 @@ class AddRecordScreen(Screen):
    def write_new_tag_to_db(self, tag_name):
       # Validate TextInput
       row_values = {
-         "tag_id": "NULL",
+         "id": "NULL",
          "name":tag_name,
       }
       self.interfaceStorage.insert_into_table("tags", row_values)

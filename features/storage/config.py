@@ -37,7 +37,7 @@ class Tables():
    configTables = [
       Table(name = "transactions",
          attribute_list = [
-            Attribute(name = "transaction_id",  data_type = "integer",                primary_key = True),
+            Attribute(name = "id",  data_type = "integer",                primary_key = True),
             Attribute(name = "transaction_type",data_type = "text"),
             Attribute(name = "amount",          data_type = "decimal(65,2)"),
             Attribute(name = "currency",        data_type = "text"),
@@ -48,13 +48,13 @@ class Tables():
       ),
       Table(name = "tags",
          attribute_list = [
-            Attribute(name = "tag_id",          data_type = "integer", primary_key = True),
+            Attribute(name = "id",          data_type = "integer", primary_key = True),
             Attribute(name = "name",            data_type = "text", unique = True),
          ]
       ),
       Table(name = "transaction_tag_relationship",
          attribute_list = [
-            Attribute(name = "relation_key",    data_type = "integer", primary_key = True),            
+            Attribute(name = "id",    data_type = "integer", primary_key = True),            
             Attribute(name = "transaction_key", data_type = "integer"),            
             Attribute(name = "tag_key",         data_type = "integer"),
          ]
