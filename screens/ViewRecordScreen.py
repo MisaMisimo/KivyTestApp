@@ -59,10 +59,3 @@ class ViewRecordScreen(Screen):
 ################################################################################
 #               On load Record functions
 ################################################################################
-
-   def on_selected(self, *args):
-      pass
-   def on_unselected(self, *args):
-      pass
-   def set_selection_mode(self, *args):
-      pass
