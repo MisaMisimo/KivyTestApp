@@ -26,13 +26,12 @@
       icon: "plus-thick"
 
 <ViewRecordRecycleView>:
-   viewclass: 'ExpenseListItem'  # defines the viewtype for the data items.
+   viewclass: 'SelectableListItem'  # defines the viewtype for the data items.
    orientation: "vertical"
    spacing: 40
    padding:20, 20
    space_x: self.size[0]/3
-
-   RecycleBoxLayout:
+   SelectableRecycleBoxLayout:
       color:(0, 0.7, 0.4, 0.8)
       default_size: None, dp(56)
 

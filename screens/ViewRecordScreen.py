@@ -1,12 +1,47 @@
+from asyncio.proactor_events import _ProactorBaseWritePipeTransport
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from kivy.uix.recycleboxlayout import  RecycleBoxLayout
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.behaviors.compoundselection import CompoundSelectionBehavior
+from kivy.uix.behaviors import FocusBehavior
 from kivymd.uix.list import TwoLineAvatarIconListItem
 from kivymd.uix.recycleview import RecycleView
 from features.storage.StorageInterface import StorageInterface
 from utils.utils import DateUtils
+from kivy.properties import BooleanProperty
 Builder.load_file('screens/ViewRecordScreen.kv')
-class ExpenseListItem(TwoLineAvatarIconListItem):
+class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout):
+   """
+   Adds  selection and focus behavior to the view
+   """
    pass
+class SelectableListItem(TwoLineAvatarIconListItem, CompoundSelectionBehavior):
+   ''' Add selection support to the label'''
+   index = None
+   selected = BooleanProperty(False)
+   selectable = BooleanProperty(True)
+
+   def refresh_view_attrs(self, rv, index, data):
+      ''' Catch and handle the view changes '''
+      self.index = index
+      return super(SelectableListItem, self).refresh_view_attrs(
+         rv, index, data)
+
+   def on_touch_down(self, touch):
+      ''' Add selection on touch down '''
+      if super(SelectableListItem, self).on_touch_down(touch):
+         return True
+      if self.collide_point(*touch.pos) and self.selectable:
+         return self.parent.select_with_touch(self.index, touch)
+
+   def apply_selection(self, rv, index, is_selected):
+      ''' Respond to the selection of items in the view. '''
+      self.selected = is_selected
+      if is_selected:
+         print("selection changed to {0}".format(rv.data[index]))
+      else:
+         print("selection removed for {0}".format(rv.data[index]))
 class ViewRecordRecycleView(RecycleView):
    interfaceStorage = StorageInterface()
    RecycleViewData = []
