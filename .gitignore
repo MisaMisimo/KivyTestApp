@@ -4,3 +4,4 @@
 finances.db
 **/__pycache__/
 /.vscode/
+**/data/
