@@ -6,8 +6,44 @@
       padding: "20dp"
       MDLabel:
          text: "Expenses"
-         halign: "left"
-         adaptive_size: True
+         halign: "center"
+         adaptive_height: True
+      MDBoxLayout:
+         orientation: "horizontal"
+         adaptive_height: True
+         spacing: 10
+         MDIconButton:
+            icon: "menu-left"
+            md_bg_color: [0.1,0.1,0.1,1]
+            on_press: period_carousel.load_previous()
+         Carousel:
+            id: period_carousel
+            loop: True
+            md_bg_color: [0.1,0.1,0.1,1]
+            MDLabel:
+               halign: "center"
+               md_bg_color: [0.1,0.1,0.1,1]
+               text: "Weekly"
+               font_style: "Subtitle1"
+            MDLabel:
+               halign: "center"
+               md_bg_color: [0.1,0.1,0.1,1]
+               text: "Fortnight"
+               font_style: "Subtitle1"
+            MDLabel:
+               halign: "center"
+               md_bg_color: [0.1,0.1,0.1,1]
+               text: "Monthly"
+               font_style: "Subtitle1"
+            MDLabel:
+               halign: "center"
+               md_bg_color: [0.1,0.1,0.1,1]
+               text: "Quarterly"
+               font_style: "Subtitle1"
+         MDIconButton:
+            icon: "menu-right"
+            md_bg_color: [0.1,0.1,0.1,1]
+            on_press: period_carousel.load_next()
       ViewRecordRecycleView:
          id: selection_list
 
