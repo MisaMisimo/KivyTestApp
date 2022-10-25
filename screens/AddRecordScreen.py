@@ -123,12 +123,35 @@ class AddRecordScreen(Screen):
          "date" : str(inputs["date"]),
          "timestamp" : str(inputs["timestamp"]),
       }
+   def write_transaction_tag_relationship_values(self):
+      # Get last added Transaction ID
+      last_transaction_row = self.interfaceStorage.get_last_item_from_table("transactions")
+      # Get tag values
+      tag_rows = self.interfaceStorage.get_all_from_table("tags")
+      # Get currently selected tags
+      selected_tags_text = self.get_selected_tags()
+      # Get IDs for the current selected tags
+      selected_tag_ids = []
+      for selected_tag_text in selected_tags_text:
+         for tag_row in tag_rows:
+            if selected_tag_text == tag_row[1]:
+               selected_tag_ids.append(tag_row[0])
+               break
+      # Prepare outputs
+      for selected_tag_id in selected_tag_ids:
+         record_outputs = {
+               "id": "NULL",
+               "transaction_key": str(last_transaction_row[0]),
+               "tag_key": str(selected_tag_id),
+            }
+         self.interfaceStorage.insert_into_table("transaction_tag_relationship", record_outputs)
    def process_expense_inputs(self):
       # TODO validate all inputs
       validated_inputs = self.get_validated_inputs()
       if validated_inputs:
          record_outputs = self.prepare_transaciton_values(validated_inputs)
          self.interfaceStorage.insert_into_table("transactions", record_outputs)
+         self.write_transaction_tag_relationship_values()
          self.show_alert_dialog(validated_inputs)
       else:
          #TODO add snackbar mentioning an input is not valid
@@ -176,7 +199,13 @@ class AddRecordScreen(Screen):
             ],
          )
          self.add_tag_dialog.open()
-
+   def get_selected_tags(self):
+      rtn_list = []
+      for chip_tag in  self.ids['chip_stack_layout'].children:
+         if chip_tag.active:
+               rtn_list.append(chip_tag.text)
+      return rtn_list
+      
 
 ################################################################################
 #               DatePicker Functions
