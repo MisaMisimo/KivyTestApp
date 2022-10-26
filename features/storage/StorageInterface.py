@@ -136,3 +136,14 @@ class StorageInterface():
       # Close connection
       conn.close()
       return last_Row
+   def get_from_table_where_equals(self,return_column, table_name, column_name, search_value):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      c.execute("SELECT " + return_column + " FROM "+ table_name + " WHERE "+ column_name + "=" +search_value)
+      last_Row = c.fetchall()
+      conn.commit()
+      # Close connection
+      conn.close()
+      return last_Row
