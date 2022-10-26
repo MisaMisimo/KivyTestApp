@@ -27,7 +27,7 @@ class ViewRecordRecycleView(RecycleView):
       for item in last_10_items:
          self.RecycleViewData.append(
             {
-               "text" : str(item[table_headers.index('amount')]) + " " + \
+               "text" : "{:.2f}".format(item[table_headers.index('amount')]) + " " + \
                   item[table_headers.index('currency')] + "   ||   " + \
                   item[table_headers.index('description')],
                "secondary_text": DateUtils.convert_date_format(str(item[table_headers.index('date')]),"%Y-%m-%d","%B %d, %Y")
