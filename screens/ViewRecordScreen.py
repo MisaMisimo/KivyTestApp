@@ -20,18 +20,20 @@ class ViewRecordRecycleView(RecycleView):
    period_filter = "Weekly"
    def __init__(self, **kwargs):
       super(ViewRecordRecycleView, self).__init__(**kwargs)
-      self.load_last_10_items()
+      self.load_items_in_time_period()
       self.data = self.RecycleViewData
-   def load_last_10_items(self):
+   def load_items_in_time_period(self):
       try:
+         # This may fail on load, since it is called before evertynign is properly loaded.
          self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
       except AttributeError:
+         # Use default value if it s not yet created.
          self.period_filter = "Weekly"
       begin_date, end_date = DateUtils.get_dates_from_period(self.period_filter)
       table_headers = self.interfaceStorage.get_table_headers("transactions")
-      last_10_items = self.interfaceStorage.get_all_from_table_order_by("transactions","id","DESC")
+      items_in_time_period = self.interfaceStorage.get_all_from_table_where_date_between("transactions",begin_date, end_date)
       tags = self.interfaceStorage.get_all_from_table("tags")
-      for item in last_10_items:
+      for item in items_in_time_period:
          # Get tags related to this transaction
          related_tag_keys = self.interfaceStorage.get_from_table_where_equals("tag_key", "transaction_tag_relationship", "transaction_key", str(item[0]) )
          transaction_tags = []

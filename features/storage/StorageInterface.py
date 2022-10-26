@@ -139,11 +139,24 @@ class StorageInterface():
    def get_from_table_where_equals(self,return_column, table_name, column_name, search_value):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
-      # Create a cursor
+      # Create a cursor 
       c = conn.cursor()
       c.execute("SELECT " + return_column + " FROM "+ table_name + " WHERE "+ column_name + "=" +search_value)
-      last_Row = c.fetchall()
+      rows = c.fetchall()
       conn.commit()
       # Close connection
       conn.close()
-      return last_Row
+      return rows
+   def get_all_from_table_where_date_between(self, table_name, begin_date, end_date):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      sql_cmd_str = "SELECT * FROM "+ table_name + " WHERE date BETWEEN '" + begin_date.strftime("%Y-%m-%d") + "' AND '" + end_date.strftime("%Y-%m-%d") + "'"
+
+      c.execute(sql_cmd_str)
+      rows = c.fetchall()
+      conn.commit()
+      # Close connection
+      conn.close()
+      return rows
