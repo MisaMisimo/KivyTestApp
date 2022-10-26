@@ -17,11 +17,17 @@ class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, Recycle
 class ViewRecordRecycleView(RecycleView):
    interfaceStorage = StorageInterface()
    RecycleViewData = []
+   period_filter = "Weekly"
    def __init__(self, **kwargs):
       super(ViewRecordRecycleView, self).__init__(**kwargs)
       self.load_last_10_items()
       self.data = self.RecycleViewData
    def load_last_10_items(self):
+      try:
+         self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
+      except AttributeError:
+         self.period_filter = "Weekly"
+      begin_date, end_date = DateUtils.get_dates_from_period(self.period_filter)
       table_headers = self.interfaceStorage.get_table_headers("transactions")
       last_10_items = self.interfaceStorage.get_all_from_table_order_by("transactions","id","DESC")
       tags = self.interfaceStorage.get_all_from_table("tags")
