@@ -1,0 +1,69 @@
+#:kivy 2.1.0
+<TransactionFormWidget>:
+   anchor_x: 'center'
+   anchor_y: 'center'
+   orientation: "vertical"
+   padding: "20dp"
+   spacing: "30dp"
+   # md_bg_color: "orange"
+   MDFloatTextField:
+      id: amount_text_field
+      hint_text: "Amount Spent"
+      icon_left: "currency-usd"
+      text: "00.00"
+      adaptive_height: True
+      on_focus:  if self.text in "00.00": self.text = ""
+
+   MDAnchorLayout:
+      anchor_x: 'center'
+      anchor_y: 'center'
+      # md_bg_color: "green"
+      MDSegmentedControl:
+         id: currency_field
+         current_active_element: mxn_segment
+         # segment_panel_width:"200dp"
+         pos_hint: {"center_x": .5, "center_y": .5}
+         MDSegmentedControlItem:
+            id: mxn_segment
+            text: "MXN"
+         MDSegmentedControlItem:
+            id: usd_segment
+            text: "USD"
+   MDAnchorLayout:
+      anchor_x: 'center'
+      anchor_y: 'center'
+      # md_bg_color: "blue"
+      MDTextField:
+         id: description_text_field
+         hint_text: 'Description'
+         icon_left: 'format-text-variant'
+   MDAnchorLayout:
+      anchor_x: 'center'
+      anchor_y: 'center'
+      # md_bg_color: "teal"
+      MDRectangleFlatIconButton:
+         id: calendar_button
+         pos_hint: {"center_x": 0.5, "center_y": 0.5}
+         text: "Today"
+         text_color: "gray"
+         line_color: "gray"
+         icon: "calendar"
+         on_release: root.show_date_picker()
+   MDAnchorLayout:
+      anchor_x: 'center'
+      anchor_y: 'center'
+      MDStackLayout:
+         id: chip_stack_layout
+         spacing: "5dp"
+         # When loading, display tags from database
+         on_parent: root.load_tags_from_database()
+
+
+<NewTagDialog_BoxLayout>:
+   orientation: "vertical"
+   spacing: "12dp"
+   size_hint_y: None
+   height: "60dp"
+   MDTextField:
+      id: new_tag_text_field
+      hint_text: "Add Tag"
