@@ -60,7 +60,8 @@ class ViewRecordRecycleView(RecycleView):
          self.RecycleViewData.append(
             {
                "text" : first_string,
-               "secondary_text": second_string
+               "secondary_text": second_string,
+               "transaction_id": item[0]
             }
          )
          self.data = self.RecycleViewData
