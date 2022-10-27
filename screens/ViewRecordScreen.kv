@@ -15,13 +15,20 @@
          spacing: 10
          MDIconButton:
             icon: "menu-left"
+            adaptive_height: True
             md_bg_color: [0.1,0.1,0.1,1]
             on_press: period_carousel.load_previous()
          MDCarousel:
             id: period_carousel
+            adaptive_height: True
             loop: True
             md_bg_color: [0.1,0.1,0.1,1]
             on_slide_complete: root.ids['selection_list'].load_items_in_time_period()
+            MDLabel:
+               halign: "center"
+               md_bg_color: [0.1,0.1,0.1,1]
+               text: "Today"
+               font_style: "Subtitle1"
             MDLabel:
                halign: "center"
                md_bg_color: [0.1,0.1,0.1,1]
@@ -37,15 +44,38 @@
                md_bg_color: [0.1,0.1,0.1,1]
                text: "Monthly"
                font_style: "Subtitle1"
-            MDLabel:
-               halign: "center"
-               md_bg_color: [0.1,0.1,0.1,1]
-               text: "Quarterly"
-               font_style: "Subtitle1"
          MDIconButton:
             icon: "menu-right"
             md_bg_color: [0.1,0.1,0.1,1]
             on_press: period_carousel.load_next()
+      MDBoxLayout:
+         orientation: "horizontal"
+         adaptive_height: True
+         padding: 20
+         MDIconButton:
+            icon: "menu-left"
+            adaptive_height: True
+            md_bg_color: [0.1,0.1,0.1,1]
+         MDAnchorLayout:
+            MDFillRoundFlatIconButton:
+               id: begin_date_button
+               adaptive_height: True
+               spacing: 10
+               halign: "center"
+               text: "Today"
+               md_bg_color: [0.1,0.1,0.1,1]
+         MDAnchorLayout:
+            MDFillRoundFlatIconButton:
+               id: end_date_button
+               halign: "center"
+               adaptive_height: True
+               spacing: 10
+               text: "Today"
+               md_bg_color: [0.1,0.1,0.1,1]
+         MDIconButton:
+            icon: "menu-right"
+            adaptive_height: True
+            md_bg_color: [0.1,0.1,0.1,1]
       ViewRecordRecycleView:
          id: selection_list
 

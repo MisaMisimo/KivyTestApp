@@ -29,7 +29,7 @@ class DateUtils():
       elif period == "Monthly":
          begin_date = today - timedelta(days = today.day - 1)
          end_date = datetime(today.year + today.month // 12, today.month % 12 + 1, 1) - timedelta(1)
-      elif period == "Quarterly":
+      elif period == "Today":
          # TODO: Write Logic for quarterl period
          pass
       print("-------------------")

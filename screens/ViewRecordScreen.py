@@ -28,8 +28,15 @@ class ViewRecordRecycleView(RecycleView):
          self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
       except AttributeError:
          # Use default value if it s not yet created.
-         self.period_filter = "Weekly"
+         self.period_filter = "Today"
       begin_date, end_date = DateUtils.get_dates_from_period(self.period_filter)
+      # Update filter dates in screen
+      try:
+         # This may fail on load, since it is called before evertynign is properly loaded.
+         self.parent.parent.ids['begin_date_button'].text = begin_date.strftime("%a %b %d %Y")
+         self.parent.parent.ids['end_date_button'].text   = end_date.strftime("%a %b %d %Y")
+      except AttributeError:
+         pass
       table_headers = self.interfaceStorage.get_table_headers("transactions")
       items_in_time_period = self.interfaceStorage.get_all_from_table_where_date_between("transactions",begin_date, end_date)
       tags = self.interfaceStorage.get_all_from_table("tags")
