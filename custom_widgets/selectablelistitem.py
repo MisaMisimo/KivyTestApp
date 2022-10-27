@@ -8,20 +8,20 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.textfield import MDTextField
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
 from kivy.properties import BooleanProperty
 
 LONG_PRESSED_TIME = 0.6  # Change time in seconds
 Builder.load_file('custom_widgets/selectablelistitem.kv')
-class EditTransactionDialog(MDBoxLayout):
+class EditTransactionPopup(MDBoxLayout):
    def __init__(self, *args, **kwargs):
       super().__init__(*args, **kwargs)
-      self.orientation = "vertical"
 class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
    index = None
    long_press_threshold_reached = False
    long_press_event = None
    transaction_id = None
-   dialog = None
+   transaction_popup = None
    def __init__(self, **kwargs):
       super(SelectableListItem, self).__init__(**kwargs)
    def refresh_view_attrs(self, rv, index, data):
@@ -40,34 +40,20 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
          Clock.unschedule(self.long_press_event)
    def on_long_press(self, *kwargs):
       print("Long press on transaction id  " + str(self.transaction_id))
-      self.edit_transaction_dialog()
-   def cancel_transaction_dialog(self, *kwargs):
-      self.dialog.dismiss()
-      self.dialog = None
-   def accept_transaction_dialog(self, *kwargs):
-      self.dialog.dismiss()
-      self.dialog = None
+      self.edit_transaction_popup()
+   def cancel_transaction_popup(self, *kwargs):
+      self.transaction_popup.dismiss()
+      self.transaction_popup = None
+   def accept_transaction_popup(self, *kwargs):
+      self.transaction_popup.dismiss()
+      self.transaction_popup = None
       print("Edits done!")
-   def edit_transaction_dialog(self):
-      if not self.dialog:
-         self.dialog = MDDialog(
-            title="Edit Transactions",
-            type="custom",
-            content_cls=EditTransactionDialog(),
-            buttons=[
-               MDFlatButton(
-                  text="CANCEL",
-                  theme_text_color="Custom",
-                  text_color=self.theme_cls.primary_color,
-                  on_release=self.cancel_transaction_dialog
-               ),
-               MDFlatButton(
-                  text="OK",
-                  theme_text_color="Custom",
-                  text_color=self.theme_cls.primary_color,
-                  on_release=self.accept_transaction_dialog
-               ),
-            ],
+   def edit_transaction_popup(self):
+      if not self.transaction_popup:
+         self.transaction_popup = Popup(
+            title="Edit Transaction",
+            content=EditTransactionPopup(),
+            auto_dismiss=False,
          )
-      self.dialog.open()
+      self.transaction_popup.open()
 

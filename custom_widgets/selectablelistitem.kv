@@ -1,26 +1,23 @@
 #:kivy 2.1.0
-<EditTransactionDialog>:
+#: import TransactionFormWidget custom_widgets.TransactionFormWidget
+<EditTransactionPopup>:
    orientation: "vertical"
    spacing: "12dp"
-   size_hint_y: None
-   height: "120dp"
-
-   MDTextField:
-      hint_text: "Amount"
-   MDAnchorLayout:
-      anchor_x: 'center'
-      anchor_y: 'center'
-      # md_bg_color: "green"
-      MDSegmentedControl:
-         id: currency_field
-         current_active_element: mxn_segment
-         # segment_panel_width:"200dp"
-         pos_hint: {"center_x": .5, "center_y": .5}
-         MDSegmentedControlItem:
-            id: mxn_segment
-            text: "MXN"
-         MDSegmentedControlItem:
-            id: usd_segment
-            text: "USD"
-   MDTextField:
-      hint_text: "Description"
+   height: self.minimum_height
+   TransactionFormWidget:
+      orientation: "vertical"
+      id: transaction_form
+   MDBoxLayout:
+      orientation: "horizontal"
+      padding: "20dp"
+      spacing: "12dp"
+      MDIconButton:
+         icon: "delete"
+         icon_color: "red"
+      Widget:
+      MDRectangleFlatButton:
+         text: "CANCEL"
+         on_press: self.parent.parent.parent.parent.parent.dismiss()
+      MDRaisedButton:
+         text: "ACCEPT"
+         on_press: self.parent.parent.parent.parent.parent.dismiss()
