@@ -33,6 +33,7 @@ class ViewRecordRecycleView(RecycleView):
       table_headers = self.interfaceStorage.get_table_headers("transactions")
       items_in_time_period = self.interfaceStorage.get_all_from_table_where_date_between("transactions",begin_date, end_date)
       tags = self.interfaceStorage.get_all_from_table("tags")
+      self.RecycleViewData = []
       for item in items_in_time_period:
          # Get tags related to this transaction
          related_tag_keys = self.interfaceStorage.get_from_table_where_equals("tag_key", "transaction_tag_relationship", "transaction_key", str(item[0]) )
@@ -55,6 +56,7 @@ class ViewRecordRecycleView(RecycleView):
                "secondary_text": second_string
             }
          )
+         self.data = self.RecycleViewData
    def update_data_with_last_item(self):
       table_headers = self.interfaceStorage.get_table_headers("transactions")
       last_row = self.interfaceStorage.get_last_item_from_table("transactions")
