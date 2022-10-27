@@ -1,29 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-   MultiExpressionButton extends the Kivy Button object and adds three different events; on_single_press,
-   on_double_press, and on_double_press. DOUBLE_PRESS_TIME determines how long it will wait for the second press before
-   concluding it is a single press and LONG_PRESS_TIME determines how long the button must be held down to be considered
-   a long press.
-"""
+from kivy.lang import Builder
 from kivymd.uix.list import TwoLineAvatarIconListItem
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.textfield import MDTextField
 from kivy.clock import Clock
 from kivy.properties import BooleanProperty
-import timeit
-
-__author__ = "Mark Rauch Richards"
 
 LONG_PRESSED_TIME = 0.6  # Change time in seconds
-
+Builder.load_file('custom_widgets/selectablelistitem.kv')
 class EditTransactionDialog(MDBoxLayout):
-   pass
+   def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      self.orientation = "vertical"
 class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
    index = None
    long_press_threshold_reached = False
    long_press_event = None
+   transaction_id = None
+   dialog = None
    def __init__(self, **kwargs):
       super(SelectableListItem, self).__init__(**kwargs)
    def refresh_view_attrs(self, rv, index, data):
@@ -41,4 +39,35 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
       if(self.continuous_press):
          Clock.unschedule(self.long_press_event)
    def on_long_press(self, *kwargs):
-      print("Long press on index " + str(self.index))
+      print("Long press on transaction id  " + str(self.transaction_id))
+      self.edit_transaction_dialog()
+   def cancel_transaction_dialog(self, *kwargs):
+      self.dialog.dismiss()
+      self.dialog = None
+   def accept_transaction_dialog(self, *kwargs):
+      self.dialog.dismiss()
+      self.dialog = None
+      print("Edits done!")
+   def edit_transaction_dialog(self):
+      if not self.dialog:
+         self.dialog = MDDialog(
+            title="Edit Transactions",
+            type="custom",
+            content_cls=EditTransactionDialog(),
+            buttons=[
+               MDFlatButton(
+                  text="CANCEL",
+                  theme_text_color="Custom",
+                  text_color=self.theme_cls.primary_color,
+                  on_release=self.cancel_transaction_dialog
+               ),
+               MDFlatButton(
+                  text="OK",
+                  theme_text_color="Custom",
+                  text_color=self.theme_cls.primary_color,
+                  on_release=self.accept_transaction_dialog
+               ),
+            ],
+         )
+      self.dialog.open()
+
