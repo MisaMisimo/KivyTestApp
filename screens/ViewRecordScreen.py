@@ -55,13 +55,22 @@ class ViewRecordRecycleView(RecycleView):
                   item[table_headers.index('description')]
          second_string = DateUtils.convert_date_format(str(item[table_headers.index('date')]),"%Y-%m-%d","%B %d, %Y") + \
                   "      "
+         transaction_info = {
+            "id": item[0],
+            "transaction_type": item[1],
+            "amount":item[2],
+            "currency":item[3],
+            "description":item[4],
+            "date":item[5],
+            "timestamp":item[6],
+         }
          for tag in transaction_tags:
             second_string += " |" + tag + "| "
          self.RecycleViewData.append(
             {
                "text" : first_string,
                "secondary_text": second_string,
-               "transaction_id": item[0]
+               "transaction_info": transaction_info
             }
          )
          self.data = self.RecycleViewData

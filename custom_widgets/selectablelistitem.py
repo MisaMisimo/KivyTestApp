@@ -10,17 +10,22 @@ from kivymd.uix.textfield import MDTextField
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.properties import BooleanProperty
+from utils.utils import DateUtils
 
 LONG_PRESSED_TIME = 0.6  # Change time in seconds
 Builder.load_file('custom_widgets/selectablelistitem.kv')
 class EditTransactionPopup(MDBoxLayout):
-   def __init__(self, *args, **kwargs):
+   def __init__(self, transaction_info=None, *args, **kwargs):
       super().__init__(*args, **kwargs)
+      if transaction_info:
+         self.ids['transaction_form'].ids['amount_text_field'].text = "{:.2f}".format(float(transaction_info['amount']))
+         self.ids['transaction_form'].ids['description_text_field'].text = str(transaction_info['description'])
+         self.ids['transaction_form'].ids['calendar_button'].text = DateUtils.convert_date_format(transaction_info['date'], "%Y-%m-%d", "%d/%b/%Y")
+         self.ids['transaction_form'].ids['currency_field'].current_active_element = self.ids['transaction_form'].ids['usd_segment']
 class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
    index = None
    long_press_threshold_reached = False
    long_press_event = None
-   transaction_id = None
    transaction_popup = None
    def __init__(self, **kwargs):
       super(SelectableListItem, self).__init__(**kwargs)
@@ -39,7 +44,7 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
       if(self.continuous_press):
          Clock.unschedule(self.long_press_event)
    def on_long_press(self, *kwargs):
-      print("Long press on transaction id  " + str(self.transaction_id))
+      print("Long press on transaction Values " + str(self.transaction_info))
       self.edit_transaction_popup()
    def cancel_transaction_popup(self, *kwargs):
       self.transaction_popup.dismiss()
@@ -52,7 +57,7 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
       if not self.transaction_popup:
          self.transaction_popup = Popup(
             title="Edit Transaction",
-            content=EditTransactionPopup(),
+            content=EditTransactionPopup(transaction_info=self.transaction_info),
             auto_dismiss=False,
          )
       self.transaction_popup.open()
