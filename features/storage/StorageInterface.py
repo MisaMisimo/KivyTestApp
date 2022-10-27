@@ -152,7 +152,7 @@ class StorageInterface():
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
       c = conn.cursor()
-      sql_cmd_str = "SELECT * FROM "+ table_name + " WHERE date BETWEEN '" + begin_date.strftime("%Y-%m-%d") + "' AND '" + end_date.strftime("%Y-%m-%d") + "'"
+      sql_cmd_str = "SELECT * FROM "+ table_name + " WHERE date BETWEEN '" + begin_date.strftime("%Y-%m-%d") + "' AND '" + end_date.strftime("%Y-%m-%d") + "' ORDER BY date DESC"
 
       c.execute(sql_cmd_str)
       rows = c.fetchall()
