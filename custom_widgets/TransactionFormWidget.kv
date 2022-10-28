@@ -18,17 +18,26 @@
       anchor_x: 'center'
       anchor_y: 'center'
       # md_bg_color: "green"
-      MDSegmentedControl:
+      MDBoxLayout:
+         orientation: "horizontal"
          id: currency_field
-         current_active_element: mxn_segment
+         spacing: "10dp"
+         # current_active_element: mxn_segment
          # segment_panel_width:"200dp"
-         pos_hint: {"center_x": .5, "center_y": .5}
-         MDSegmentedControlItem:
-            id: mxn_segment
-            text: "MXN"
-         MDSegmentedControlItem:
-            id: usd_segment
-            text: "USD"
+         # pos_hint: {"center_x": .5, "center_y": .5}
+         Widget:
+         MDRaisedButton:
+            id: mxn_btn
+            text: "                  MXN                  "
+            md_bg_color: app.theme_cls.primary_color
+            on_press: root.set_selected_currency("MXN")
+         MDRaisedButton:
+            id: usd_btn
+            text: "                  USD                  "
+            md_bg_color: [0.1,0.1,0.1,1]
+            on_press: root.set_selected_currency("USD")
+
+         Widget:
    MDAnchorLayout:
       anchor_x: 'center'
       anchor_y: 'center'

@@ -51,7 +51,7 @@ class AddRecordScreen(Screen):
          )
       self.alert_dialog.open()
    
-   def prepare_transaciton_values(self, inputs):
+   def prepare_transaction_values(self, inputs):
       return {
          "transaction_type" : "expense",
          "amount" : str(inputs["amount"]),
@@ -86,7 +86,7 @@ class AddRecordScreen(Screen):
       # TODO validate all inputs
       validated_inputs = self.ids['transaction_form'].get_validated_inputs()
       if validated_inputs:
-         record_outputs = self.prepare_transaciton_values(validated_inputs)
+         record_outputs = self.prepare_transaction_values(validated_inputs)
          self.interfaceStorage.insert_into_table("transactions", record_outputs)
          self.write_transaction_tag_relationship_values()
          self.show_alert_dialog(validated_inputs)

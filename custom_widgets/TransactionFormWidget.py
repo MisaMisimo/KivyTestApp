@@ -12,8 +12,13 @@ Builder.load_file('custom_widgets/TransactionFormWidget.kv')
 class NewTagDialog_BoxLayout(MDBoxLayout):
    pass
 class TransactionFormWidget(MDBoxLayout):
+   selected_currency = "MXN"
    add_tag_dialog = None
    interfaceStorage = StorageInterface()
+   def __init__(self, selected_currency=None, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      if selected_currency:
+         self.selected_currency = selected_currency
 ################################################################################
 #               Tags Functions
 ################################################################################
@@ -87,7 +92,6 @@ class TransactionFormWidget(MDBoxLayout):
          on_press = self.show_add_tag_dialog
       )
       self.ids['chip_stack_layout'].add_widget(add_tag_widget)
-      print("Called on parent")
 ################################################################################
 #               DatePicker Functions
 ################################################################################
@@ -107,7 +111,7 @@ class TransactionFormWidget(MDBoxLayout):
 ################################################################################
    def get_form_inputs(self):
       amount = self.ids['amount_text_field'].text
-      currency = "MXN" if (self.ids['currency_field'].current_active_segment == None) else self.ids['currency_field'].current_active_segment.text
+      currency = "MXN" if (self.selected_currency == None) else self.selected_currency
       description = self.ids['description_text_field'].text
       date = DateUtils.convert_date_format(self.ids['calendar_button'].text, "%d/%b/%Y", "%Y-%m-%d") if (self.ids['calendar_button'].text != "Today") else datetime.now().strftime("%Y-%m-%d")
       timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -136,3 +140,14 @@ class TransactionFormWidget(MDBoxLayout):
       # No need to validate date
       # No need to validate timestamp
       return record_input_values
+################################################################################
+#               Currency Selection Functions
+################################################################################
+   def set_selected_currency(self, selected_currency):
+      self.selected_currency = selected_currency
+      if self.selected_currency == "MXN":
+         self.ids['mxn_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]
+         self.ids['usd_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
+      elif self.selected_currency == "USD":
+         self.ids['mxn_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
+         self.ids['usd_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]

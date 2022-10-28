@@ -160,3 +160,37 @@ class StorageInterface():
       # Close connection
       conn.close()
       return rows
+   def update_set_by_id(self, table_name:str, attribute_values:dict, id:int):
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
+      # Add row with Expense values
+      sql_cmd_str = "UPDATE "
+      TableObj = Tables()
+      for table in TableObj.configTables:
+         if table_name == table.name:
+            # Build SQL Command
+            sql_cmd_str += table.name + " SET "
+            last_attr_indx = len(table.attribute_list) - 1
+            attr_indx = 0
+            for header,value in attribute_values.items():
+               attr_indx +=1
+               sql_cmd_str += header + " = " 
+               sql_cmd_str += "\'" if(header in TableObj.sql_header_uses_tilde) else ""
+               sql_cmd_str += value 
+               sql_cmd_str += "\'" if(header in TableObj.sql_header_uses_tilde) else ""
+               # Add comma if it isn't the last value
+               sql_cmd_str += ", " if attr_indx != last_attr_indx else ""
+            sql_cmd_str += " WHERE id = " + str(id)
+      print(sql_cmd_str)
+      try:
+         pass
+         c.execute(sql_cmd_str)
+      except sqlite3.IntegrityError:
+         print("Exception caught!")
+         print(sys.exc_info()[0])
+         print(sys.exc_info()[1])
+      conn.commit()
+      # Close connection
+      conn.close()

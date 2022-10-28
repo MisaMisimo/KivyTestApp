@@ -20,4 +20,7 @@
          on_press: self.parent.parent.parent.parent.parent.dismiss()
       MDRaisedButton:
          text: "ACCEPT"
-         on_press: self.parent.parent.parent.parent.parent.dismiss()
+         on_press: 
+            root.accept_transaction_changes()
+            app.update_list_screen()
+            self.parent.parent.parent.parent.parent.dismiss()

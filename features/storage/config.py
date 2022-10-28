@@ -34,6 +34,7 @@ class Tables():
       def add_attribute(self, attribute):
          self.attribte_list.append(attribute)
    sql_data_type_uses_tilde = ["text", "date", "datetime"]
+   sql_header_uses_tilde = ["transaction_type", "currency","description","date","timestamp"]
    configTables = [
       Table(name = "transactions",
          attribute_list = [
