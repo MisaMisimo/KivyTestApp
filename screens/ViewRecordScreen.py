@@ -70,7 +70,8 @@ class ViewRecordRecycleView(RecycleView):
             {
                "text" : first_string,
                "secondary_text": second_string,
-               "transaction_info": transaction_info
+               "transaction_info": transaction_info,
+               "transaction_tags": transaction_tags,
             }
          )
       self.data = self.RecycleViewData

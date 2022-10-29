@@ -18,7 +18,8 @@ Builder.load_file('custom_widgets/selectablelistitem.kv')
 class EditTransactionPopup(MDBoxLayout):
    interfaceStorage = StorageInterface()
    transaction_info = None
-   def __init__(self, transaction_info=None, *args, **kwargs):
+   transaction_tags = None
+   def __init__(self, transaction_info=None, transaction_tags=None, *args, **kwargs):
       super().__init__(*args, **kwargs)
       if transaction_info:
          self.transaction_info = transaction_info
@@ -26,6 +27,12 @@ class EditTransactionPopup(MDBoxLayout):
          self.ids['transaction_form'].ids['description_text_field'].text = str(transaction_info['description'])
          self.ids['transaction_form'].ids['calendar_button'].text = DateUtils.convert_date_format(transaction_info['date'], "%Y-%m-%d", "%d/%b/%Y")
          self.children[1].set_selected_currency(str(transaction_info['currency']))
+      if transaction_tags:
+         self.transaction_tags = transaction_tags
+         # For each chip tag
+         for chip in self.ids['transaction_form'].ids['chip_stack_layout'].children:
+            if chip.text in transaction_tags:
+               chip.active = True
    def accept_transaction_changes(self):
       self.process_expense_inputs()
    def write_transaction_tag_relationship_values(self):
@@ -109,7 +116,7 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
       if not self.transaction_popup:
          self.transaction_popup = Popup(
             title="Edit Transaction",
-            content=EditTransactionPopup(transaction_info=self.transaction_info),
+            content=EditTransactionPopup(transaction_info=self.transaction_info, transaction_tags = self.transaction_tags),
             auto_dismiss=False,
          )
          self.transaction_popup.bind(on_dismiss = self.popup_dismissed)
