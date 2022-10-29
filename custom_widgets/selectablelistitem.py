@@ -35,9 +35,9 @@ class EditTransactionPopup(MDBoxLayout):
                chip.active = True
    def accept_transaction_changes(self):
       self.process_expense_inputs()
-   def write_transaction_tag_relationship_values(self):
-      # Get last added Transaction ID
-      last_transaction_row = self.interfaceStorage.get_last_item_from_table("transactions")
+   def update_transaction_tag_relationship_values(self):
+      # Delete all relationships for this transaction
+      self.interfaceStorage.delete_record("transaction_tag_relationship", "transaction_key",self.transaction_info['id'] )
       # Get tag values
       tag_rows = self.interfaceStorage.get_all_from_table("tags")
       # Get currently selected tags
@@ -53,17 +53,19 @@ class EditTransactionPopup(MDBoxLayout):
       for selected_tag_id in selected_tag_ids:
          record_outputs = {
                "id": "NULL",
-               "transaction_key": str(last_transaction_row[0]),
+               "transaction_key": str(self.transaction_info['id']),
                "tag_key": str(selected_tag_id),
             }
+         # Add each selected tag
          self.interfaceStorage.insert_into_table("transaction_tag_relationship", record_outputs)
+      
    def process_expense_inputs(self):
       # TODO validate all inputs
       validated_inputs = self.ids['transaction_form'].get_validated_inputs()
       if validated_inputs:
          record_outputs = self.prepare_transaction_values(validated_inputs)
          self.interfaceStorage.update_set_by_id("transactions", record_outputs, self.transaction_info['id'])
-         # self.write_transaction_tag_relationship_values()
+         self.update_transaction_tag_relationship_values()
          # self.show_alert_dialog(validated_inputs)
       else:
          #TODO add snackbar mentioning an input is not valid
@@ -79,7 +81,7 @@ class EditTransactionPopup(MDBoxLayout):
       }
    def delete_current_row(self, *kwargs):
       if self.transaction_info:
-         self.interfaceStorage.delete_record('transactions', self.transaction_info['id'])
+         self.interfaceStorage.delete_record('transactions', "id", self.transaction_info['id'])
          
 class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
    index = None
@@ -122,4 +124,4 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
          self.transaction_popup.bind(on_dismiss = self.popup_dismissed)
       self.transaction_popup.open()
    def  popup_dismissed(self, *kwargs):
-      pass
+      self.transaction_popup = None
