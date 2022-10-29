@@ -73,7 +73,7 @@ class ViewRecordRecycleView(RecycleView):
                "transaction_info": transaction_info
             }
          )
-         self.data = self.RecycleViewData
+      self.data = self.RecycleViewData
 
 ################################################################################
 ################################################################################
