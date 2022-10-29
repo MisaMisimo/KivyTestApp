@@ -13,7 +13,10 @@
       spacing: "12dp"
       MDIconButton:
          icon: "delete"
-         icon_color: "red"
+         on_press: 
+            root.delete_current_row()
+            app.update_list_screen()
+            self.parent.parent.parent.parent.parent.dismiss()
       Widget:
       MDRectangleFlatButton:
          text: "CANCEL"

@@ -88,12 +88,19 @@ class StorageInterface():
       conn.commit()
       # Close connection
       conn.close()
-   def delete_record(self, key):
+   def delete_record(self, table_name, key):
       # Connect to database
+      # Create database or connect to one
+      conn = sqlite3.connect(CONST.DATABASE_PATH)
+      # Create a cursor
+      c = conn.cursor()
       # Delete All Rows from Transactions with the key
+      sql_cmd_string = "DELETE FROM " + table_name + " WHERE id = "+ str(key)
+      c = conn.execute(sql_cmd_string)
       # Delete All rows from Tags Where Tranasction Key is the Key
+      conn.commit()
       # Close database
-      pass
+      conn.close()
    def get_table_headers(self, table_name:str):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)

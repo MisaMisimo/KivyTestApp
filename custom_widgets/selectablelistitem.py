@@ -17,7 +17,7 @@ LONG_PRESSED_TIME = 0.6  # Change time in seconds
 Builder.load_file('custom_widgets/selectablelistitem.kv')
 class EditTransactionPopup(MDBoxLayout):
    interfaceStorage = StorageInterface()
-
+   transaction_info = None
    def __init__(self, transaction_info=None, *args, **kwargs):
       super().__init__(*args, **kwargs)
       if transaction_info:
@@ -70,6 +70,10 @@ class EditTransactionPopup(MDBoxLayout):
          "date" : str(inputs["date"]),
          "timestamp" : str(inputs["timestamp"]),
       }
+   def delete_current_row(self, *kwargs):
+      if self.transaction_info:
+         self.interfaceStorage.delete_record('transactions', self.transaction_info['id'])
+         
 class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
    index = None
    long_press_threshold_reached = False
@@ -112,4 +116,3 @@ class SelectableListItem(RecycleDataViewBehavior, TwoLineAvatarIconListItem):
       self.transaction_popup.open()
    def  popup_dismissed(self, *kwargs):
       pass
-       
