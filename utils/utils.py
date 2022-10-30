@@ -38,3 +38,40 @@ class DateUtils():
       print("-------------------")
       return(begin_date, end_date)
 
+class MathUtils():
+   def weights_to_percent(weight_dict:dict):
+      # Calculate total amount
+      total_amount = 0
+      for key in weight_dict:
+         total_amount += weight_dict[key]
+      # Get percentages
+      percent_dict = {}
+      # Avoid dividing by zero
+      if total_amount != 0:
+         for k,v in weight_dict.items():
+            percent_dict[k] = (v * 100 ) / total_amount
+      integer_percents  = MathUtils.largestRemainder(percent_dict)
+
+      return integer_percents
+      
+   def largestRemainder(float_percents_dict:dict):
+      # Take all the integer parts
+      int_percent_list = {}
+      remainder_percent_list = {}
+      amount_to_distribute = 100
+      for key, value  in float_percents_dict.items():
+         int_percent_list[key] = int(value)
+         remainder_percent_list[key] = value - int(value)
+         amount_to_distribute -= int(value)
+
+      # Distribute remainder in order of the highest remainders
+      for key, value in sorted(
+         remainder_percent_list.items(),
+         key = lambda item: item[1]
+         ):
+         if amount_to_distribute > 0:
+            int_percent_list[key] += 1
+            amount_to_distribute -= 1
+         else:
+            break
+      return int_percent_list
