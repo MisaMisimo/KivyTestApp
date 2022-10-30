@@ -2,7 +2,10 @@
 <ViewGraphsScreen>:
    name: "ViewGraphsMenu"
    id: my_screen
-   on_parent: root.draw_chart()
+   on_parent: 
+      root.update_period_filter()
+      root.update_displayed_search_dates()
+      root.draw_chart()
    MDScrollView:
       size_hint: (1,0.9)
       MDBoxLayout:
@@ -30,6 +33,8 @@
                loop: True
                md_bg_color: [0.1,0.1,0.1,1]
                on_slide_complete: 
+                  root.update_period_filter()
+                  root.update_displayed_search_dates()
                   root.draw_chart()
                MDLabel:
                   halign: "center"

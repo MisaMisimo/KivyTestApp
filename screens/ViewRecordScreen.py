@@ -27,10 +27,17 @@ class ViewRecordRecycleView(RecycleView):
       # Initialize search filter
       self.searchFilter = SearchFilter("Today")
       # Update shown search dates
-      self.update_search_dates()
+      self.update_displayed_search_dates()
       self.load_items_into_recycleview_list()
-      
-   def update_search_dates(self):
+   def update_period_filter(self):
+      # Get current time-period filter
+      try:
+         # This may fail on load, since it is called before evertynign is properly loaded.
+         self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
+      except AttributeError:
+         # Use default value if it s not yet created.
+         self.period_filter = "Today"
+   def update_displayed_search_dates(self):
       # Update filter dates in screen
       try:
          # This may fail on load, since it is called before evertynign is properly loaded.
@@ -40,13 +47,7 @@ class ViewRecordRecycleView(RecycleView):
          # If it's not loaded, the *.kv file takes care of the initial text
          pass
    def load_items_into_recycleview_list(self):
-      # Get current time-period filter
-      try:
-         # This may fail on load, since it is called before evertynign is properly loaded.
-         self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
-      except AttributeError:
-         # Use default value if it s not yet created.
-         self.period_filter = "Today"
+      self.update_period_filter()
       # Get items in this period
       items_in_time_period = self.searchFilter.load_items_in_time_period(
          period_filter = self.period_filter,

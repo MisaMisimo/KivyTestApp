@@ -20,7 +20,7 @@ class FinanceTrackerApp(MDApp):
 ########################################
    def update_list_screen(self):
       self.root.ids['screen2_item'].children[0].ids['selection_list'].load_items_into_recycleview_list()
-      self.root.ids['screen2_item'].children[0].ids['selection_list'].update_search_dates()
+      self.root.ids['screen2_item'].children[0].ids['selection_list'].update_displayed_search_dates()
 
 if __name__ == "__main__":
    FinanceTrackerApp().run()
