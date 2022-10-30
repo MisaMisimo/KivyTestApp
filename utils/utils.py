@@ -6,7 +6,7 @@ class DateUtils():
    def convert_date_format(input_string, input_format, output_format):
       date_time_obj = datetime.strptime(input_string,input_format )
       return datetime.strftime(date_time_obj, output_format)
-   def get_dates_from_period(period):
+   def get_dates_from_period(period="Today"):
       today = datetime.today()
       begin_date = today
       end_date = today
