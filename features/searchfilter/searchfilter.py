@@ -57,6 +57,33 @@ class SearchFilter():
             }
          )
       return transaction_info_list
+   def load_piechart_items(self, period_filter = "Today", offset = 0):
+      # Get transaciotn info  for this time period
+      items_in_time_period = self.load_items_in_time_period(period_filter="Today", offset = 0)
+      tag_sum_values = {
+         "No_tag": 0
+      }
+      total_amount = 0
+      for item in items_in_time_period:
+         # If related tags is not an empty list
+         if item['related_tags']:
+            for tag in item['related_tags']:
+               # If tag is already a key in rtn_values, add to amount
+               if tag in tag_sum_values:
+                  tag_sum_values[tag] += item['amount']
+               # Else need to declare this new tag and initialize it to this amount
+               else:
+                  tag_sum_values[tag] = item['amount']
+         # If item has no related tag
+         else:
+            tag_sum_values["No_tag"] += item['amount']
+         total_amount += item['amount']
+      piechart_pecent_item_values = {}
+      # Calculate each percent for each item
+      for key,value in tag_sum_values.items():
+         piechart_pecent_item_values[key] = value * 100 / total_amount
+      return piechart_pecent_item_values
+
 
 
 """
