@@ -52,5 +52,3 @@ class ViewGraphsScreen(Screen):
          )
       
       self.ids['pchart'].add_widget(self.piechart)
-   def print_button_text(self):
-      print("Hello")
