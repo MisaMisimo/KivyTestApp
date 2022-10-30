@@ -23,7 +23,9 @@
             adaptive_height: True
             loop: True
             md_bg_color: [0.1,0.1,0.1,1]
-            on_slide_complete: root.ids['selection_list'].load_items_in_time_period()
+            on_slide_complete: 
+               root.ids['selection_list'].load_items_into_recycleview_list()
+               root.ids['selection_list'].update_search_dates()
             MDLabel:
                halign: "center"
                md_bg_color: [0.1,0.1,0.1,1]

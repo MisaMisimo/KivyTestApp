@@ -6,8 +6,9 @@ from kivy.uix.behaviors import FocusBehavior
 from kivymd.uix.list import TwoLineAvatarIconListItem
 from kivymd.uix.recycleview import RecycleView
 from features.storage.StorageInterface import StorageInterface
-from utils.utils import DateUtils
+from features.searchfilter.searchfilter import SearchFilter
 from kivy.properties import BooleanProperty
+from utils.utils import DateUtils
 Builder.load_file('screens/ViewRecordScreen.kv')
 class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout):
    """
@@ -15,63 +16,59 @@ class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, Recycle
    """
    pass
 class ViewRecordRecycleView(RecycleView):
-   interfaceStorage = StorageInterface()
    RecycleViewData = []
-   period_filter = "Weekly"
+   period_filter = "Today"
+   begin_date = None
+   end_date = None
+   interfaceStorage = None
+   searchFilter = None
    def __init__(self, **kwargs):
       super(ViewRecordRecycleView, self).__init__(**kwargs)
-      self.load_items_in_time_period()
-      self.data = self.RecycleViewData
-   def load_items_in_time_period(self):
+      # Initialize search filter
+      self.searchFilter = SearchFilter("Today")
+      # Update shown search dates
+      self.update_search_dates()
+      self.load_items_into_recycleview_list()
+      
+   def update_search_dates(self):
+      # Update filter dates in screen
+      try:
+         # This may fail on load, since it is called before evertynign is properly loaded.
+         self.parent.parent.ids['begin_date_button'].text = self.searchFilter.being_date.strftime("%a %b %d %Y")
+         self.parent.DateUtils.parent.ids['end_date_button'].text   = self.searchFilter.end_date.strftime("%a %b %d %Y")
+      except AttributeError:
+         # If it's not loaded, the *.kv file takes care of the initial text
+         pass
+   def load_items_into_recycleview_list(self):
+      # Get current time-period filter
       try:
          # This may fail on load, since it is called before evertynign is properly loaded.
          self.period_filter = self.parent.parent.ids['period_carousel'].current_slide.text
       except AttributeError:
          # Use default value if it s not yet created.
          self.period_filter = "Today"
-      begin_date, end_date = DateUtils.get_dates_from_period(self.period_filter)
-      # Update filter dates in screen
-      try:
-         # This may fail on load, since it is called before evertynign is properly loaded.
-         self.parent.parent.ids['begin_date_button'].text = begin_date.strftime("%a %b %d %Y")
-         self.parent.parent.ids['end_date_button'].text   = end_date.strftime("%a %b %d %Y")
-      except AttributeError:
-         pass
-      table_headers = self.interfaceStorage.get_table_headers("transactions")
-      items_in_time_period = self.interfaceStorage.get_all_from_table_where_date_between("transactions",begin_date, end_date)
-      tags = self.interfaceStorage.get_all_from_table("tags")
+      # Get items in this period
+      items_in_time_period = self.searchFilter.load_items_in_time_period(
+         period_filter = self.period_filter,
+         offset = 0
+      )
+      # Empty the recycle view data
       self.RecycleViewData = []
+      # Iterate through transactions in this time period
       for item in items_in_time_period:
-         # Get tags related to this transaction
-         related_tag_keys = self.interfaceStorage.get_from_table_where_equals("tag_key", "transaction_tag_relationship", "transaction_key", str(item[0]) )
-         transaction_tags = []
-         for related_tag in  related_tag_keys:
-            for tag in tags:
-               if related_tag[0] == tag[0]:
-                  transaction_tags.append(tag[1])
-                  break
-         first_string = "{:.2f}".format(item[table_headers.index('amount')]) + " " + \
-                  item[table_headers.index('currency')] + "   ||   " + \
-                  item[table_headers.index('description')]
-         second_string = DateUtils.convert_date_format(str(item[table_headers.index('date')]),"%Y-%m-%d","%B %d, %Y") + \
-                  "      "
-         transaction_info = {
-            "id": item[0],
-            "transaction_type": item[1],
-            "amount":item[2],
-            "currency":item[3],
-            "description":item[4],
-            "date":item[5],
-            "timestamp":item[6],
-         }
-         for tag in transaction_tags:
+         # Build First String for recycle view item
+         first_string = "{:.2f}".format(item['amount']) + " " + \
+            item['currency'] + "   ||   " + item['description']
+         # Build Second String for recycle view item
+         second_string = DateUtils.convert_date_format(str(item['date']),"%Y-%m-%d","%B %d, %Y")
+         for tag in item['related_tags']:
             second_string += " |" + tag + "| "
          self.RecycleViewData.append(
             {
                "text" : first_string,
                "secondary_text": second_string,
-               "transaction_info": transaction_info,
-               "transaction_tags": transaction_tags,
+               "transaction_info": item,
+               "transaction_tags": item['related_tags'],
             }
          )
       self.data = self.RecycleViewData
@@ -94,3 +91,4 @@ class ViewRecordScreen(Screen):
 ################################################################################
 #               On load Record functions
 ################################################################################
+
