@@ -59,7 +59,7 @@ class SearchFilter():
       return transaction_info_list
    def load_piechart_items(self, period_filter = "Today", offset = 0):
       # Get transaciotn info  for this time period
-      items_in_time_period = self.load_items_in_time_period(period_filter="Today", offset = 0)
+      items_in_time_period = self.load_items_in_time_period(period_filter, offset = 0)
       tag_sum_values = {
          "No_tag": 0
       }
