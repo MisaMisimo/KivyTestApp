@@ -1,5 +1,6 @@
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from kivymd.uix.label import MDLabel
 from kivymd_extensions.akivymd.uix.charts import AKPieChart
 from kivy.metrics import dp
 from features.searchfilter.searchfilter import SearchFilter
@@ -38,10 +39,18 @@ class ViewGraphsScreen(Screen):
    def draw_chart(self):
       self.update_period_filter()
       self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter)]
-      self.piechart = AKPieChart(
-         items=self.pie_items, 
-         size_hint=[0.9,0.9],
-      )
+      # If we don't have an error on the first element??
+      if self.pie_items[0]:
+         self.piechart = AKPieChart(
+            items=self.pie_items, 
+            size_hint=[0.9,0.9],
+         )
+      else:
+         self.piechart = MDLabel(
+            text = "No Results",
+            halign = "center"
+         )
+      
       self.ids['pchart'].add_widget(self.piechart)
    def print_button_text(self):
       print("Hello")
