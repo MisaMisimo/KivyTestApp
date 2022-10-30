@@ -14,10 +14,9 @@ class ViewGraphsScreen(Screen):
          "iPhones": 20
       }]
       self.piechart = AKPieChart(
-         items=self.items, pos_hint={'center_x': 0.5, 'center_y': .4},
-         size_hint=[None, None],
-         size=(dp(200), dp(200))
+         items=self.items, 
+         size_hint=[0.9,0.9],
       )
-      self.ids['graph_main_layout'].add_widget(self.piechart)
+      self.ids['pchart'].add_widget(self.piechart)
    def print_button_text(self):
       print("Hello")

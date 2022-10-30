@@ -3,81 +3,109 @@
    name: "ViewGraphsMenu"
    id: my_screen
    on_parent: root.draw_chart()
-   MDBoxLayout:
-      id: graph_main_layout
-      orientation: "vertical"
-      padding: "20dp"
-      MDLabel:
-         text: "Expenses"
-         halign: "center"
-         adaptive_height: True
+   MDScrollView:
+      size_hint: (1,0.9)
       MDBoxLayout:
-         orientation: "horizontal"
-         adaptive_height: True
-         spacing: 10
-         MDIconButton:
-            icon: "menu-left"
+         id: graph_main_layout
+         orientation: "vertical"
+         padding: "20dp"
+         size_hint: 1,None
+         height: self.minimum_height
+         MDLabel:
+            text: "Expenses"
+            halign: "center"
             adaptive_height: True
-            md_bg_color: [0.1,0.1,0.1,1]
-            on_press: period_carousel.load_previous()
-         MDCarousel:
-            id: period_carousel
+         MDBoxLayout:
+            orientation: "horizontal"
             adaptive_height: True
-            loop: True
-            md_bg_color: [0.1,0.1,0.1,1]
-            on_slide_complete: 
-               root.ids['selection_list'].load_items_into_recycleview_list()
-               root.ids['selection_list'].update_search_dates()
-            MDLabel:
-               halign: "center"
-               md_bg_color: [0.1,0.1,0.1,1]
-               text: "Today"
-               font_style: "Subtitle1"
-            MDLabel:
-               halign: "center"
-               md_bg_color: [0.1,0.1,0.1,1]
-               text: "Weekly"
-               font_style: "Subtitle1"
-            MDLabel:
-               halign: "center"
-               md_bg_color: [0.1,0.1,0.1,1]
-               text: "Fortnight"
-               font_style: "Subtitle1"
-            MDLabel:
-               halign: "center"
-               md_bg_color: [0.1,0.1,0.1,1]
-               text: "Monthly"
-               font_style: "Subtitle1"
-         MDIconButton:
-            icon: "menu-right"
-            md_bg_color: [0.1,0.1,0.1,1]
-            on_press: period_carousel.load_next()
-      MDBoxLayout:
-         orientation: "horizontal"
-         adaptive_height: True
-         padding: 20
-         MDIconButton:
-            icon: "menu-left"
-            adaptive_height: True
-            md_bg_color: [0.1,0.1,0.1,1]
-         MDAnchorLayout:
-            MDFillRoundFlatIconButton:
-               id: begin_date_button
+            spacing: 10
+            MDIconButton:
+               icon: "menu-left"
                adaptive_height: True
-               spacing: 10
-               halign: "center"
-               text: "Today"
                md_bg_color: [0.1,0.1,0.1,1]
-         MDAnchorLayout:
-            MDFillRoundFlatIconButton:
-               id: end_date_button
-               halign: "center"
+               on_press: period_carousel.load_previous()
+            MDCarousel:
+               id: period_carousel
                adaptive_height: True
-               spacing: 10
-               text: "Today"
+               loop: True
                md_bg_color: [0.1,0.1,0.1,1]
-         MDIconButton:
-            icon: "menu-right"
+               on_slide_complete: 
+                  root.ids['selection_list'].load_items_into_recycleview_list()
+                  root.ids['selection_list'].update_search_dates()
+               MDLabel:
+                  halign: "center"
+                  md_bg_color: [0.1,0.1,0.1,1]
+                  text: "Today"
+                  font_style: "Subtitle1"
+               MDLabel:
+                  halign: "center"
+                  md_bg_color: [0.1,0.1,0.1,1]
+                  text: "Weekly"
+                  font_style: "Subtitle1"
+               MDLabel:
+                  halign: "center"
+                  md_bg_color: [0.1,0.1,0.1,1]
+                  text: "Fortnight"
+                  font_style: "Subtitle1"
+               MDLabel:
+                  halign: "center"
+                  md_bg_color: [0.1,0.1,0.1,1]
+                  text: "Monthly"
+                  font_style: "Subtitle1"
+            MDIconButton:
+               icon: "menu-right"
+               md_bg_color: [0.1,0.1,0.1,1]
+               on_press: period_carousel.load_next()
+         MDBoxLayout:
+            orientation: "horizontal"
             adaptive_height: True
-            md_bg_color: [0.1,0.1,0.1,1]
-      Widget:
+            padding: 20
+            MDIconButton:
+               icon: "menu-left"
+               adaptive_height: True
+               md_bg_color: [0.1,0.1,0.1,1]
+            MDAnchorLayout:
+               MDFillRoundFlatIconButton:
+                  id: begin_date_button
+                  adaptive_height: True
+                  spacing: 10
+                  halign: "center"
+                  text: "Today"
+                  md_bg_color: [0.1,0.1,0.1,1]
+            MDAnchorLayout:
+               MDFillRoundFlatIconButton:
+                  id: end_date_button
+                  halign: "center"
+                  adaptive_height: True
+                  spacing: 10
+                  text: "Today"
+                  md_bg_color: [0.1,0.1,0.1,1]
+            MDIconButton:
+               icon: "menu-right"
+               adaptive_height: True
+               md_bg_color: [0.1,0.1,0.1,1]
+         MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            spacing: "20dp"
+            padding: "20dp"
+            
+            MDCard:
+               id: pchart_mdcard
+               size_hint: 1, None
+               size: max(pchart_mdcard.width, dp(20)), pchart_mdcard.width
+               orientation: 'vertical'
+               radius: 10, 10
+               elevation: -1
+               MDAnchorLayout:
+                  anchor_x: "center"
+                  anchor_y: "center"
+                  id: pchart
+            MDCard:
+               id: psummary_mdcard
+               size_hint: 1, None
+               size: pchart_mdcard.width, pchart_mdcard.width
+               orientation: 'vertical'
+               radius: 10, 10
+               elevation: -1
+         Widget:
