@@ -87,6 +87,8 @@ class SearchFilter():
       # Filter out empyt lists
       if len(piechart_percent_items) == 0:
          return None
+      # Filter out tags with zero percent:
+      for 
       return piechart_percent_items
 
 
