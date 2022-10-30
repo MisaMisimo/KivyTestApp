@@ -110,7 +110,7 @@ class StorageInterface():
       conn.close()
       column_names = list(map(lambda x: x[0], c.description))
       return column_names
-   def get_all_from_table(self, table_name:str, amount_limit=10):
+   def get_all_from_table(self, table_name:str, amount_limit=100):
       # Create database or connect to one
       conn = sqlite3.connect(CONST.DATABASE_PATH)
       # Create a cursor
