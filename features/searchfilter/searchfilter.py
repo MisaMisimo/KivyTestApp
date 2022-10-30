@@ -1,5 +1,5 @@
 from features.storage.StorageInterface import StorageInterface
-from utils.utils import DateUtils
+from utils.utils import DateUtils, MathUtils
 class SearchFilter():
    interfaceStorage = StorageInterface()
    searchResults = None
@@ -63,7 +63,6 @@ class SearchFilter():
       tag_sum_values = {
          "No_tag": 0
       }
-      total_amount = 0
       for item in items_in_time_period:
          # If related tags is not an empty list
          if item['related_tags']:
@@ -77,12 +76,18 @@ class SearchFilter():
          # If item has no related tag
          else:
             tag_sum_values["No_tag"] += item['amount']
-         total_amount += item['amount']
-      piechart_pecent_item_values = {}
-      # Calculate each percent for each item
-      for key,value in tag_sum_values.items():
-         piechart_pecent_item_values[key] = value * 100 / total_amount
-      return piechart_pecent_item_values
+      # ###############################
+      #  Validate return items
+      # ################################
+      # Avoid division by zero Error
+      try:
+         piechart_percent_items = MathUtils.weights_to_percent(tag_sum_values)
+      except ZeroDivisionError:
+         return None
+      # Filter out empyt lists
+      if len(piechart_percent_items) == 0:
+         return None
+      return piechart_percent_items
 
 
 
