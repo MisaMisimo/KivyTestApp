@@ -88,7 +88,9 @@ class SearchFilter():
       if len(piechart_percent_items) == 0:
          return None
       # Filter out tags with zero percent:
-      for 
+      for k,v in tag_sum_values.items():
+         if piechart_percent_items[k] == 0:
+            piechart_percent_items.pop(k)
       return piechart_percent_items
 
 
