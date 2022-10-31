@@ -129,15 +129,26 @@ class SearchFilter():
       if len(piechart_percent_items) == 0:
          return None
       rtn_list = []
-      for k,v in piechart_percent_items.items():
+      for k,v in sorted(
+         tag_sum_values.items(),
+         reverse=True,
+         key = lambda item: item[1],
+      ):
+         print(k, " ", v)
          rtn_list.append(
             (
-               "Expense",
                k,
-               "$" + str(tag_sum_values[k]),
-               str(v) + "%",
+               "$" + str(v),
             )
          )
+      # For some reason, appending in order of highest to lowest doesn't result
+      # in a list which goes from highest to lowest. So we need to do some 
+      # weird logic to properly order it
+      x = list(zip(*rtn_list))[0]
+      y = list(zip(*rtn_list))[1]
+      rtn_list = []
+      for i in range(len(x)):
+         rtn_list.append((x[i],y[i]))
       return rtn_list
 
 """

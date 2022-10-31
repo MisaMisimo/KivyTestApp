@@ -60,10 +60,8 @@ class ViewGraphsScreen(Screen):
       # self.update_period_filter()
       table_row_data = self.searchFilter.load_summary_chart(self.period_filter)
       table_colum_data = [
-         ("Type", dp(30)),
          ("Tag", dp(30)),
-         ("Amount", dp(30)),
-         ("Percent", dp(30)),
+         ("Amount", dp(30)) 
       ]
       if (table_row_data):
          self.summary_table = MDDataTable(
