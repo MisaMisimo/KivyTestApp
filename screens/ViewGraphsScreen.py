@@ -2,6 +2,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.label import MDLabel
 from kivymd_extensions.akivymd.uix.charts import AKPieChart
+from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 from features.searchfilter.searchfilter import SearchFilter
 Builder.load_file('screens/ViewGraphsScreen.kv')
@@ -16,6 +17,7 @@ class ViewGraphsScreen(Screen):
       # If it exists, reset the pie chart
       try:
          self.ids['pchart'].remove_widget(self.piechart)
+         self.ids['psummary'].remove_widget(self.summary_table)
       except AttributeError:
          pass
       # Get current time-period filter
@@ -52,3 +54,28 @@ class ViewGraphsScreen(Screen):
          )
       
       self.ids['pchart'].add_widget(self.piechart)
+
+   def draw_summary_table(self):
+      # Need to fix this, since update_period_filter removes the other iwdgte it must only be casled once
+      # self.update_period_filter()
+      table_row_data = self.searchFilter.load_summary_chart(self.period_filter)
+      table_colum_data = [
+         ("Type", dp(30)),
+         ("Tag", dp(30)),
+         ("Amount", dp(30)),
+         ("Percent", dp(30)),
+      ]
+      if (table_row_data):
+         self.summary_table = MDDataTable(
+            size_hint = (1,1),
+            column_data = table_colum_data,
+            row_data = table_row_data
+         )
+      else:
+         self.summary_table = MDLabel(
+            text = "No Results",
+            halign = "center",
+         )
+      self.ids['psummary'].add_widget(self.summary_table)
+      print(table_row_data)
+

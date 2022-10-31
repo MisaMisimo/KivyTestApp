@@ -6,6 +6,7 @@
       root.update_period_filter()
       root.update_displayed_search_dates()
       root.draw_chart()
+      root.draw_summary_table()
    MDScrollView:
       size_hint: (1,0.9)
       MDBoxLayout:
@@ -36,6 +37,7 @@
                   root.update_period_filter()
                   root.update_displayed_search_dates()
                   root.draw_chart()
+                  root.draw_summary_table()
                MDLabel:
                   halign: "center"
                   md_bg_color: [0.1,0.1,0.1,1]
@@ -112,4 +114,8 @@
                orientation: 'vertical'
                radius: 10, 10
                elevation: -1
+               MDAnchorLayout:
+                  anchor_x: "center"
+                  anchor_y: "center"
+                  id: psummary
          Widget:

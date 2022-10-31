@@ -92,8 +92,51 @@ class SearchFilter():
          if piechart_percent_items[k] == 0:
             piechart_percent_items.pop(k)
       return piechart_percent_items
-
-
+   def load_summary_chart(self, period_filter = "Today", offset = 0):
+      # Get transaciotn info  for this time period
+      items_in_time_period = self.load_items_in_time_period(period_filter, offset = 0)
+      tag_sum_values = {
+         "No_tag": 0
+      }
+      for item in items_in_time_period:
+         # If related tags is not an empty list
+         if item['related_tags']:
+            for tag in item['related_tags']:
+               # If tag is already a key in rtn_values, add to amount
+               if tag in tag_sum_values:
+                  tag_sum_values[tag] += item['amount']
+               # Else need to declare this new tag and initialize it to this amount
+               else:
+                  tag_sum_values[tag] = item['amount']
+         # If item has no related tag
+         else:
+            tag_sum_values["No_tag"] += item['amount']
+      # ###############################
+      #  Validate return items
+      # ################################
+      # Avoid division by zero Error
+      try:
+         piechart_percent_items = MathUtils.weights_to_percent(tag_sum_values)
+      except ZeroDivisionError:
+         return None
+      # Filter out empyt lists
+      if len(piechart_percent_items) == 0:
+         return None
+      # Filter out tags with zero percent:
+      for k,v in tag_sum_values.items():
+         if piechart_percent_items[k] == 0:
+            piechart_percent_items.pop(k)
+      rtn_list = []
+      for k,v in piechart_percent_items.items():
+         rtn_list.append(
+            (
+               "Expense",
+               k,
+               "$" + str(tag_sum_values[k]),
+               str(v) + "%",
+            )
+         )
+      return rtn_list
 
 """
 
