@@ -112,6 +112,11 @@ class SearchFilter():
          # If item has no related tag
          else:
             tag_sum_values["No_tag"] += item['amount']
+      # Filter out tags with zero percent:
+      tmp_tags_dict = tag_sum_values.copy() 
+      for k,v in tmp_tags_dict.items():
+         if tag_sum_values[k] == 0:
+            tag_sum_values.pop(k)
       # ###############################
       #  Validate return items
       # ################################
@@ -123,10 +128,6 @@ class SearchFilter():
       # Filter out empyt lists
       if len(piechart_percent_items) == 0:
          return None
-      # Filter out tags with zero percent:
-      for k,v in tag_sum_values.items():
-         if piechart_percent_items[k] == 0:
-            piechart_percent_items.pop(k)
       rtn_list = []
       for k,v in piechart_percent_items.items():
          rtn_list.append(
