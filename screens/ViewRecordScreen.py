@@ -41,10 +41,11 @@ class ViewRecordRecycleView(RecycleView):
       # Update filter dates in screen
       try:
          # This may fail on load, since it is called before evertynign is properly loaded.
-         self.parent.parent.ids['begin_date_button'].text = self.searchFilter.being_date.strftime("%a %b %d %Y")
-         self.parent.DateUtils.parent.ids['end_date_button'].text   = self.searchFilter.end_date.strftime("%a %b %d %Y")
+         self.parent.parent.ids['begin_date_button'].text = self.searchFilter.begin_date.strftime("%a %b %d %Y")
+         self.parent.parent.ids['end_date_button'].text   = self.searchFilter.end_date.strftime("%a %b %d %Y")
       except AttributeError:
          # If it's not loaded, the *.kv file takes care of the initial text
+         print("Problem Setting Dates due to Attribute Error. i.e. components not loaded yet.")
          pass
    def load_items_into_recycleview_list(self):
       self.update_period_filter()
