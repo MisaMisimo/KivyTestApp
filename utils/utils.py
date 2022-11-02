@@ -1,37 +1,58 @@
 from datetime import datetime, timedelta
 from kivy.utils import platform
+from dateutil.relativedelta import relativedelta
 USING_ANDROID_PLTFRM = (platform == 'android')
 
 class DateUtils():
    def convert_date_format(input_string, input_format, output_format):
       date_time_obj = datetime.strptime(input_string,input_format )
       return datetime.strftime(date_time_obj, output_format)
-   def get_dates_from_period(period="Today"):
+   def get_dates_from_period(period="Today", offset = 0):
       today = datetime.today()
       begin_date = today
       end_date = today
       if period == "Weekly":
+         # Calculate with 0 Offset
          begin_date = today - timedelta(days = today.weekday())
          end_date = begin_date + timedelta(days = 6)
+         # 
+         begin_date = begin_date + timedelta(weeks=offset)
+         end_date = end_date + timedelta(weeks=offset)
       elif period == "Fortnight":
+         current_fortnight_is_first = True
          if today.day < 16:
+            current_fortnight_is_first = True
             # If it's before 16
             #     begin date should be same month, day1.
             #     End date should be same mont, day15
             #  Else:
             #     begin date should be same month, day 16
             #     end date should be same month day 30
-            begin_date = today - timedelta(days = today.day + 1)
-            end_date = begin_date + timedelta(days= 14)
+            begin_date = today - timedelta(days = (today.day - 1 ) )
+            end_date = begin_date + timedelta(days= 15 - 1)
          else:
+            current_fortnight_is_first = False
             begin_date = today - timedelta(days= (today.day - 15))
             end_date = datetime(today.year + today.month // 12, today.month % 12 + 1, 1) - timedelta(1)
+         offset_is_whole_month = ( (offset % 2) == 0 )
+         # Apply Offset
+         begin_date += relativedelta(months=offset//2)
+         end_date += relativedelta( months=offset//2)
+         if current_fortnight_is_first and not offset_is_whole_month:
+            begin_date += relativedelta(days = 15)
+            end_date += relativedelta(days = 15)
+
       elif period == "Monthly":
          begin_date = today - timedelta(days = today.day - 1)
          end_date = datetime(today.year + today.month // 12, today.month % 12 + 1, 1) - timedelta(1)
+         # Apply Offset
+         begin_date += relativedelta(months=offset)
+         end_date += relativedelta(months=offset)
       elif period == "Today":
          # TODO: Write Logic for quarterl period
-         pass
+         # Apply Offset
+         begin_date = begin_date + timedelta(days=offset)
+         end_date = end_date + timedelta(days=offset)
       print("-------------------")
       print("Begin date:", begin_date)
       print("End   date:", end_date)

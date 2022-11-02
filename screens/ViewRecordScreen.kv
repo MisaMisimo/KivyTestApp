@@ -58,6 +58,7 @@
             icon: "menu-left"
             adaptive_height: True
             md_bg_color: [0.1,0.1,0.1,1]
+            on_press: root.ids['selection_list'].decrease_date_offset()
          MDAnchorLayout:
             MDFillRoundFlatIconButton:
                id: begin_date_button
@@ -78,6 +79,7 @@
             icon: "menu-right"
             adaptive_height: True
             md_bg_color: [0.1,0.1,0.1,1]
+            on_press: root.ids['selection_list'].increase_date_offset()
       ViewRecordRecycleView:
          id: selection_list
 

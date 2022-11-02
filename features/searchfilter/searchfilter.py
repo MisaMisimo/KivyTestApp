@@ -6,12 +6,12 @@ class SearchFilter():
    begin_date = None
    end_date = None
 
-   def __init__(self, initial_period="Today"):
-      self.begin_date, self.end_date = DateUtils.get_dates_from_period(initial_period)
+   def __init__(self, initial_period="Today", offset = 0):
+      self.begin_date, self.end_date = DateUtils.get_dates_from_period(initial_period, offset)
    # We need to input only period filter
    def load_items_in_time_period(self, period_filter="Today", offset = 0):
       # Recalculate begin and end date according to the period filter string
-      self.begin_date, self.end_date = DateUtils.get_dates_from_period(period_filter)
+      self.begin_date, self.end_date = DateUtils.get_dates_from_period(period_filter, offset)
       # Get items in specified period
       items_in_time_period = self.interfaceStorage.get_all_from_table_where_date_between(
          "transactions",

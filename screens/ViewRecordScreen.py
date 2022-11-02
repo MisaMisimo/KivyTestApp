@@ -22,6 +22,7 @@ class ViewRecordRecycleView(RecycleView):
    end_date = None
    interfaceStorage = None
    searchFilter = None
+   date_offset = 0
    def __init__(self, **kwargs):
       super(ViewRecordRecycleView, self).__init__(**kwargs)
       # Initialize search filter
@@ -52,7 +53,7 @@ class ViewRecordRecycleView(RecycleView):
       # Get items in this period
       items_in_time_period = self.searchFilter.load_items_in_time_period(
          period_filter = self.period_filter,
-         offset = 0
+         offset = self.date_offset
       )
       # Empty the recycle view data
       self.RecycleViewData = []
@@ -74,6 +75,18 @@ class ViewRecordRecycleView(RecycleView):
             }
          )
       self.data = self.RecycleViewData
+   def decrease_date_offset(self):
+      self.date_offset -= 1
+      self.update_period_filter()
+      self.load_items_into_recycleview_list()
+      self.update_displayed_search_dates()
+      print("offset = ", self.date_offset)
+   def increase_date_offset(self):
+      self.date_offset += 1
+      self.update_period_filter()
+      self.load_items_into_recycleview_list()
+      self.update_displayed_search_dates()
+      print("offset = ", self.date_offset)
 
 ################################################################################
 ################################################################################
