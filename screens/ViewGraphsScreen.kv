@@ -70,6 +70,7 @@
                icon: "menu-left"
                adaptive_height: True
                md_bg_color: [0.1,0.1,0.1,1]
+               on_press: root.decrease_date_offset()
             MDAnchorLayout:
                MDFillRoundFlatIconButton:
                   id: begin_date_button
@@ -90,6 +91,7 @@
                icon: "menu-right"
                adaptive_height: True
                md_bg_color: [0.1,0.1,0.1,1]
+               on_press: root.increase_date_offset()
          MDBoxLayout:
             orientation: "vertical"
             adaptive_height: True

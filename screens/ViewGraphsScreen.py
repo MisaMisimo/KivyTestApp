@@ -9,10 +9,12 @@ Builder.load_file('screens/ViewGraphsScreen.kv')
 class ViewGraphsScreen(Screen):
    searchFilter = None
    period_filter = None
+   date_offset = None
    def __init__(self, **kw):
       super(ViewGraphsScreen, self).__init__(**kw)
       self.searchFilter = SearchFilter()
       self.update_displayed_search_dates()
+      self.date_offset = 0
    def update_period_filter(self):
       # If it exists, reset the pie chart
       try:
@@ -77,3 +79,15 @@ class ViewGraphsScreen(Screen):
       self.ids['psummary'].add_widget(self.summary_table)
       print(table_row_data)
 
+   def decrease_date_offset(self):
+      self.date_offset -= 1
+      self.update_period_filter()
+      self.draw_chart()
+      self.draw_summary_table()
+      print("offset = ", self.date_offset)
+   def increase_date_offset(self):
+      self.date_offset += 1
+      self.update_period_filter()
+      self.draw_chart()
+      self.draw_summary_table()
+      print("offset = ", self.date_offset)
