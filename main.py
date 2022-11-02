@@ -19,8 +19,13 @@ class FinanceTrackerApp(MDApp):
 #     View Record Screen Event
 ########################################
    def update_list_screen(self):
+      # Update list Screen
       self.root.ids['screen2_item'].children[0].ids['selection_list'].load_items_into_recycleview_list()
       self.root.ids['screen2_item'].children[0].ids['selection_list'].update_displayed_search_dates()
-
+      # Update Graph Screen
+      self.root.ids['screen3_item'].children[0].update_period_filter()
+      self.root.ids['screen3_item'].children[0].update_displayed_search_dates()
+      self.root.ids['screen3_item'].children[0].draw_chart()
+      self.root.ids['screen3_item'].children[0].draw_summary_table()
 if __name__ == "__main__":
    FinanceTrackerApp().run()
