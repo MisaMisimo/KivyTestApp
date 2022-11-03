@@ -20,6 +20,7 @@ class ViewGraphsScreen(Screen):
       try:
          self.ids['pchart'].remove_widget(self.piechart)
          self.ids['psummary'].remove_widget(self.summary_table)
+         self.ids['psavings'].remove_widget(self.psavings_lbl)
       except AttributeError:
          pass
       # Get current time-period filter
@@ -80,6 +81,19 @@ class ViewGraphsScreen(Screen):
       self.ids['psummary'].add_widget(self.summary_table)
       print(table_row_data)
 
+   def draw_savings(self):
+      table_row_data = self.searchFilter.load_savings_data(self.period_filter, self.date_offset)
+      if (table_row_data):
+         self.psavings_lbl = MDLabel(
+            text = table_row_data,
+            halign = "center",
+         )
+      else:
+         self.psavings_lbl = MDLabel(
+            text = "No Results",
+            halign = "center",
+         )
+      self.ids['psavings'].add_widget(self.psavings_lbl)
    def decrease_date_offset(self):
       self.date_offset -= 1
       self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset, include_expense=True)
@@ -87,6 +101,7 @@ class ViewGraphsScreen(Screen):
       self.update_displayed_search_dates()
       self.draw_chart()
       self.draw_summary_table()
+      self.draw_savings()
       print("offset = ", self.date_offset)
    def increase_date_offset(self):
       self.date_offset += 1
@@ -95,4 +110,5 @@ class ViewGraphsScreen(Screen):
       self.update_displayed_search_dates()
       self.draw_chart()
       self.draw_summary_table()
+      self.draw_savings()
       print("offset = ", self.date_offset)

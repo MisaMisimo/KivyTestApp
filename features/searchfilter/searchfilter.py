@@ -156,6 +156,28 @@ class SearchFilter():
       for i in range(len(x)):
          rtn_list.append((x[i],y[i]))
       return rtn_list
+   
+   def load_savings_data(self, period_filter = "Today", offset = 0):
+      # Get transaciotn info  for this time period
+      items_in_time_period = self.load_items_in_time_period(period_filter, offset, include_expense=True, include_income=True)
+      total_expense_in_time_period = 0
+      total_income_in_time_period = 0
+      income_delta = 0
+      for item in items_in_time_period:
+         if item['transaction_type'] == 'expense':
+            total_expense_in_time_period += item['amount']
+         if item['transaction_type'] == 'income':
+            total_income_in_time_period += item['amount']
+      income_delta = total_income_in_time_period - total_expense_in_time_period
+      rtn_str = ""
+      rtn_str += "Total Income:  $" + "{:.2f}".format(total_income_in_time_period) + "\n"
+      rtn_str += "Total Expense: $" + "{:.2f}".format(total_expense_in_time_period) + "\n"
+      rtn_str += "\n"
+      rtn_str += "Remaing Income: $" + "{:.2f}".format(income_delta) + "\n"
+      if total_income_in_time_period > 0:
+         percent_income_used = (total_expense_in_time_period * 100 )/ total_income_in_time_period
+         rtn_str += "Percent of Income Used:" + "{:.2f}".format(percent_income_used) + "%\n"
+      return rtn_str
 
 """
 

@@ -7,6 +7,7 @@
       root.update_displayed_search_dates()
       root.draw_chart()
       root.draw_summary_table()
+      root.draw_savings()
    MDScrollView:
       size_hint: (1,0.9)
       MDBoxLayout:
@@ -38,6 +39,7 @@
                   root.update_displayed_search_dates()
                   root.draw_chart()
                   root.draw_summary_table()
+                  root.draw_savings()
                MDLabel:
                   halign: "center"
                   md_bg_color: [0.1,0.1,0.1,1]
@@ -120,4 +122,15 @@
                   anchor_x: "center"
                   anchor_y: "center"
                   id: psummary
+            MDCard:
+               id: psavings_mdcard
+               size_hint: 1, None
+               size: pchart_mdcard.width, pchart_mdcard.width
+               orientation: 'vertical'
+               radius: 10, 10
+               elevation: -1
+               MDAnchorLayout:
+                  anchor_x: "center"
+                  anchor_y: "center"
+                  id: psavings
          Widget:

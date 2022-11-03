@@ -27,5 +27,6 @@ class FinanceTrackerApp(MDApp):
       self.root.ids['screen3_item'].children[0].update_displayed_search_dates()
       self.root.ids['screen3_item'].children[0].draw_chart()
       self.root.ids['screen3_item'].children[0].draw_summary_table()
+      self.root.ids['screen3_item'].children[0].draw_savings()
 if __name__ == "__main__":
    FinanceTrackerApp().run()
