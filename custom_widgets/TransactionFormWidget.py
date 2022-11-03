@@ -13,7 +13,7 @@ class NewTagDialog_BoxLayout(MDBoxLayout):
    pass
 class TransactionFormWidget(MDBoxLayout):
    selected_currency = "MXN"
-   selected_transaction_type = "Expense"
+   selected_transaction_type = "expense"
    add_tag_dialog = None
    interfaceStorage = StorageInterface()
    def __init__(self, selected_currency=None, *args, **kwargs):
