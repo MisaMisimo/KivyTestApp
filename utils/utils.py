@@ -7,6 +7,11 @@ class DateUtils():
    def convert_date_format(input_string, input_format, output_format):
       date_time_obj = datetime.strptime(input_string,input_format )
       return datetime.strftime(date_time_obj, output_format)
+   def last_day_of_month(any_day):
+      # The day 28 exists in every month. 4 days later, it's always next month
+      next_month = any_day.replace(day=28) + timedelta(days=4)
+      # subtracting the number of the current day brings us back one month
+      return next_month - timedelta(days=next_month.day)
    def get_dates_from_period(period="Today", offset = 0):
       today = datetime.today()
       begin_date = today
@@ -44,10 +49,10 @@ class DateUtils():
 
       elif period == "Monthly":
          begin_date = today - timedelta(days = today.day - 1)
-         end_date = datetime(today.year + today.month // 12, today.month % 12 + 1, 1) - timedelta(1)
+         end_date = DateUtils.last_day_of_month(begin_date)
          # Apply Offset
          begin_date += relativedelta(months=offset)
-         end_date += relativedelta(months=offset)
+         end_date = DateUtils.last_day_of_month(begin_date)
       elif period == "Today":
          # TODO: Write Logic for quarterl period
          # Apply Offset
