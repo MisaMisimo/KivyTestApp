@@ -53,7 +53,8 @@ class ViewRecordRecycleView(RecycleView):
       # Get items in this period
       items_in_time_period = self.searchFilter.load_items_in_time_period(
          period_filter = self.period_filter,
-         offset = self.date_offset
+         offset = self.date_offset,
+         include_expense=True
       )
       # Empty the recycle view data
       self.RecycleViewData = []

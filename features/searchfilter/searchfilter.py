@@ -9,7 +9,7 @@ class SearchFilter():
    def __init__(self, initial_period="Today", offset = 0):
       self.begin_date, self.end_date = DateUtils.get_dates_from_period(initial_period, offset)
    # We need to input only period filter
-   def load_items_in_time_period(self, period_filter="Today", offset = 0):
+   def load_items_in_time_period(self, period_filter="Today", offset = 0, include_expense = False, include_income = False):
       # Recalculate begin and end date according to the period filter string
       self.begin_date, self.end_date = DateUtils.get_dates_from_period(period_filter, offset)
       # Get items in specified period
@@ -56,10 +56,16 @@ class SearchFilter():
                "related_tags": related_tag_names,
             }
          )
+      # Filter out expense
+      if (include_expense == False):
+         transaction_info_list = [x for x in transaction_info_list if(x['transaction_type']!="expense")]
+      if (include_income == False):
+         transaction_info_list = [x for x in transaction_info_list if(x['transaction_type']!="income")]
+
       return transaction_info_list
    def load_piechart_items(self, period_filter = "Today", offset = 0):
       # Get transaciotn info  for this time period
-      items_in_time_period = self.load_items_in_time_period(period_filter, offset)
+      items_in_time_period = self.load_items_in_time_period(period_filter, offset, include_expense=True)
       tag_sum_values = {
          "No_tag": 0
       }
@@ -95,7 +101,7 @@ class SearchFilter():
       return piechart_percent_items
    def load_summary_chart(self, period_filter = "Today", offset = 0):
       # Get transaciotn info  for this time period
-      items_in_time_period = self.load_items_in_time_period(period_filter, offset)
+      items_in_time_period = self.load_items_in_time_period(period_filter, offset, include_expense=True)
       tag_sum_values = {
          "No_tag": 0
       }

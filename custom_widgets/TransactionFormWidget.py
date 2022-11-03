@@ -156,9 +156,9 @@ class TransactionFormWidget(MDBoxLayout):
          self.ids['usd_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]
    def set_selected_transaction_type(self, selected_transaction_type):
       self.selected_transaction_type = selected_transaction_type
-      if self.selected_transaction_type == "Expense":
+      if self.selected_transaction_type == "expense":
          self.ids['expense_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]
          self.ids['income_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
-      elif self.selected_transaction_type == "Income":
+      elif self.selected_transaction_type == "income":
          self.ids['expense_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
          self.ids['income_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]

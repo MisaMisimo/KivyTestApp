@@ -82,7 +82,7 @@ class ViewGraphsScreen(Screen):
 
    def decrease_date_offset(self):
       self.date_offset -= 1
-      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset)
+      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset, include_expense=True)
       self.update_period_filter()
       self.update_displayed_search_dates()
       self.draw_chart()
@@ -90,7 +90,7 @@ class ViewGraphsScreen(Screen):
       print("offset = ", self.date_offset)
    def increase_date_offset(self):
       self.date_offset += 1
-      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset)
+      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset, include_expense=True)
       self.update_period_filter()
       self.update_displayed_search_dates()
       self.draw_chart()
