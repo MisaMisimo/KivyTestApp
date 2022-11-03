@@ -26,11 +26,12 @@ class ViewGraphsScreen(Screen):
       try:
          # This may fail on load, since it is called before evertynign is properly loaded.
          self.period_filter = self.ids['period_carousel'].current_slide.text
+         self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter, self.date_offset)]
       except AttributeError:
          # Use default value if it s not yet created.
          self.period_filter = "Today"
          # Update items according to period filter
-         self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter)]
+         self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter, self.date_offset)]
    def update_displayed_search_dates(self):
       # Update filter dates in screen
       try:
@@ -42,7 +43,7 @@ class ViewGraphsScreen(Screen):
          pass
    def draw_chart(self):
       self.update_period_filter()
-      self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter)]
+      self.pie_items = [self.searchFilter.load_piechart_items(self.period_filter, self.date_offset)]
       # If we don't have an error on the first element??
       if self.pie_items[0]:
          self.piechart = AKPieChart(
@@ -60,7 +61,7 @@ class ViewGraphsScreen(Screen):
    def draw_summary_table(self):
       # Need to fix this, since update_period_filter removes the other iwdgte it must only be casled once
       # self.update_period_filter()
-      table_row_data = self.searchFilter.load_summary_chart(self.period_filter)
+      table_row_data = self.searchFilter.load_summary_chart(self.period_filter, self.date_offset)
       table_colum_data = [
          ("Tag", dp(29)),
          ("Amount", dp(29)) 
@@ -81,13 +82,17 @@ class ViewGraphsScreen(Screen):
 
    def decrease_date_offset(self):
       self.date_offset -= 1
+      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset)
       self.update_period_filter()
+      self.update_displayed_search_dates()
       self.draw_chart()
       self.draw_summary_table()
       print("offset = ", self.date_offset)
    def increase_date_offset(self):
       self.date_offset += 1
+      self.searchFilter.load_items_in_time_period(self.period_filter, self.date_offset)
       self.update_period_filter()
+      self.update_displayed_search_dates()
       self.draw_chart()
       self.draw_summary_table()
       print("offset = ", self.date_offset)
