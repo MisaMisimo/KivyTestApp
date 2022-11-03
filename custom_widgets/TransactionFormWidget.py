@@ -13,6 +13,7 @@ class NewTagDialog_BoxLayout(MDBoxLayout):
    pass
 class TransactionFormWidget(MDBoxLayout):
    selected_currency = "MXN"
+   selected_transaction_type = "Expense"
    add_tag_dialog = None
    interfaceStorage = StorageInterface()
    def __init__(self, selected_currency=None, *args, **kwargs):
@@ -110,12 +111,14 @@ class TransactionFormWidget(MDBoxLayout):
 #               Interface Functions
 ################################################################################
    def get_form_inputs(self):
+      transaction_type = "Expense" if (self.selected_transaction_type == None) else self.selected_transaction_type
       amount = self.ids['amount_text_field'].text
       currency = "MXN" if (self.selected_currency == None) else self.selected_currency
       description = self.ids['description_text_field'].text
       date = DateUtils.convert_date_format(self.ids['calendar_button'].text, "%d/%b/%Y", "%Y-%m-%d") if (self.ids['calendar_button'].text != "Today") else datetime.now().strftime("%Y-%m-%d")
       timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
       record_input_values = {
+         "transaction_type":transaction_type,
          "amount":amount,
          "currency": currency,
          "description": description,
@@ -151,3 +154,11 @@ class TransactionFormWidget(MDBoxLayout):
       elif self.selected_currency == "USD":
          self.ids['mxn_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
          self.ids['usd_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]
+   def set_selected_transaction_type(self, selected_transaction_type):
+      self.selected_transaction_type = selected_transaction_type
+      if self.selected_transaction_type == "Expense":
+         self.ids['expense_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]
+         self.ids['income_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
+      elif self.selected_transaction_type == "Income":
+         self.ids['expense_btn'].md_bg_color = [0.1, 0.1, 0.1, 1.0]
+         self.ids['income_btn'].md_bg_color = [0.12941176470588237, 0.5882352941176471, 0.9529411764705882, 1.0]

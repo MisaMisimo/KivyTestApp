@@ -5,7 +5,25 @@
    orientation: "vertical"
    padding: "20dp"
    spacing: "30dp"
-   # md_bg_color: "orange"
+   MDAnchorLayout:
+      anchor_x: 'center'
+      anchor_y: 'center'
+      MDBoxLayout:
+         orientation: "horizontal"
+         id: transaction_type_layout
+         spacing: "10dp"
+         Widget:
+         MDRaisedButton:
+            id: expense_btn
+            text: "              Expense              "
+            md_bg_color: app.theme_cls.primary_color
+            on_press: root.set_selected_transaction_type("expense")
+         MDRaisedButton:
+            id: income_btn
+            text: "              Income              "
+            md_bg_color: [0.1,0.1,0.1,1]
+            on_press: root.set_selected_transaction_type("income")
+         Widget:
    MDFloatTextField:
       id: amount_text_field
       hint_text: "Amount Spent"

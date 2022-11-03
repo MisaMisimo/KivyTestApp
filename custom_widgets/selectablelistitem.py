@@ -72,7 +72,7 @@ class EditTransactionPopup(MDBoxLayout):
          print("Invalid inputs")
    def prepare_transaction_values(self, inputs):
       return {
-         "transaction_type" : "expense",
+         "transaction_type" : str(inputs["transaction_type"]),
          "amount" : str(inputs["amount"]),
          "currency" : str(inputs["currency"]),
          "description" : str(inputs["description"]),
